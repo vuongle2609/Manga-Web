@@ -1,11 +1,16 @@
 import store from "../state";
+import { Link } from "react-router-dom";
 
 function CanvasSections(props) {
   return (
-    <li className={"flex items-center justify-start py-2 px-3 dark:text-white"}>
-      <i className={`bx bx-${props.icon} mr-1 text-2xl`}></i>
-      <span className="select-none font-medium">{props.name}</span>
-    </li>
+    <Link to={props.path}>
+      <li
+        className={"flex items-center justify-start py-2 px-3 dark:text-white"}
+      >
+        <i className={`bx bx-${props.icon} mr-1 text-2xl`}></i>
+        <span className="select-none font-medium">{props.name}</span>
+      </li>
+    </Link>
   );
 }
 
@@ -34,17 +39,16 @@ export default function OffCanvas() {
           <CanvasSections
             name="Trang chủ"
             icon="home"
-            active="active"
-            to="/home"
+            path="/home"
           />
 
-          <CanvasSections name="Yêu thích" icon="heart" />
-          <CanvasSections name="Lịch sử" icon="history" />
-          <CanvasSections name="Ngẫu nhiên" icon="shuffle" />
-          <CanvasSections name="Thể loại" icon="menu" />
-          <CanvasSections name="Thông báo" icon="bell" />
-          <CanvasSections name="Cài đặt" icon="cog" />
-          <CanvasSections name="Người dùng" icon="user" />
+          <CanvasSections name="Yêu thích" icon="heart"  path="/list"/>
+          <CanvasSections name="Lịch sử" icon="history"  path=""/>
+          <CanvasSections name="Ngẫu nhiên" icon="shuffle"  path=""/>
+          <CanvasSections name="Thể loại" icon="menu"  path=""/>
+          <CanvasSections name="Thông báo" icon="bell"  path=""/>
+          <CanvasSections name="Cài đặt" icon="cog" path="" />
+          <CanvasSections name="Người dùng" icon="user"  path=""/>
         </ul>
       </div>
       {canvas ? (

@@ -5,10 +5,14 @@ module.exports = {
     extend: {
       colors: {
         modal: "RGBA(0,0,0,0.44)",
+        transparent: 'transparent',
         bdark: "#27272a",
-        sdarks: "#444444"
+        sdarks: "#444444",
+        primary: "#ff6740"
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 };
