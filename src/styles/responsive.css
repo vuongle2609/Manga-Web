@@ -356,6 +356,11 @@
         max-width: 16.66667%;
     }
 
+    .m-2-4 {
+        flex: 0 0 20%;
+        max-width: 20%;
+    }
+
     .m-3 {
         flex: 0 0 25%;
         max-width: 25%;

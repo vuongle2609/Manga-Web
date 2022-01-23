@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <div
       className="flex absolute top-0 left-0 bg-white
-    dark:bg-zinc-800 h-[56px] items-center w-screen z-10"
+    dark:bg-zinc-800 h-[56px] items-center w-full z-10"
     >
       <div className="grid wide">
         <div className="row justify-between items-center">
@@ -40,15 +40,21 @@ export default function Navbar() {
               className="bx bx-search text-2xl dark:text-white md:hidden"
               onClick={setSearch}
             ></i>
-            {isDark ? (
+            {isDark === 'dark'? (
               <i
-                className="bx text-2xl ml-3 bx-moon cursor-pointer"
-                onClick={setDark}
+                className="bx text-2xl ml-3 bx-moon text-white cursor-pointer"
+                onClick={() => {
+                  setDark('light');
+                  localStorage.setItem("theme", 'light');
+                }}
               ></i>
             ) : (
               <i
-                className="bx text-2xl ml-3 bx-sun text-white cursor-pointer"
-                onClick={setDark}
+                className="bx text-2xl ml-3 bx-sun cursor-pointer"
+                onClick={() => {
+                  setDark('dark');
+                  localStorage.setItem("theme", 'dark');
+                }}
               ></i>
             )}
           </div>

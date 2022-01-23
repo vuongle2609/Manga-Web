@@ -1,12 +1,12 @@
 import create from "zustand";
 
 const store = create(set => ({
-    isDark: false,
+    isDark: 'light',
     isSearch: false,
     canvas: false,
-    setDark: () => {
+    setDark: (theme) => {
         set(state => ({
-            isDark: !state.isDark,
+            isDark: theme,
         }))
     },
     setSearch: () => {

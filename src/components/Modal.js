@@ -36,12 +36,14 @@ export default function Modal() {
   };
 
   return isSearch ? (
+    <>
     <div
       className="modal fixed top-0 bottom-0 left-0 right-0 bg-modal flex justify-center"
       onClick={(e) => handleHide(e)}
     >
       <ModalSearch />
     </div>
+    </>
   ) : (
     false
   );
