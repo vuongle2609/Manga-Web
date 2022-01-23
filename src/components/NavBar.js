@@ -1,4 +1,5 @@
 import store from "../state";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const { isDark, setDark, setSearch, setCanvas } = store();
@@ -14,15 +15,15 @@ export default function Navbar() {
               className="bx bx-menu-alt-left dark:text-white text-3xl mr-1"
               onClick={setCanvas}
             ></i>
-            <div
+            <Link to={'/home'}
               className="w-10 h-10 rounded-3xl bg-cover"
               style={{
                 backgroundImage: `url('https://media.discordapp.net/attachments/914572068123721788/924219001180127292/bot.png?width=468&height=468')`,
               }}
-            ></div>
-            <h2 className="dark:text-white font-medium ml-2 select-none">
+            ></Link>
+            <Link to={'/home'} className="dark:text-white font-medium ml-2 select-none">
               Paff Wandering
-            </h2>
+            </Link>
           </div>
 
           <div className="flex items-center">
@@ -40,20 +41,20 @@ export default function Navbar() {
               className="bx bx-search text-2xl dark:text-white md:hidden"
               onClick={setSearch}
             ></i>
-            {isDark === 'dark'? (
+            {isDark === "dark" ? (
               <i
                 className="bx text-2xl ml-3 bx-moon text-white cursor-pointer"
                 onClick={() => {
-                  setDark('light');
-                  localStorage.setItem("theme", 'light');
+                  setDark("light");
+                  localStorage.setItem("theme", "light");
                 }}
               ></i>
             ) : (
               <i
                 className="bx text-2xl ml-3 bx-sun cursor-pointer"
                 onClick={() => {
-                  setDark('dark');
-                  localStorage.setItem("theme", 'dark');
+                  setDark("dark");
+                  localStorage.setItem("theme", "dark");
                 }}
               ></i>
             )}

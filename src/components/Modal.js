@@ -10,8 +10,8 @@ function ModalSearch() {
 
   return (
     <div
-      className="search-c bg-white dark:bg-bdark h-32 w-11/12 
-    mt-20 rounded-md flex flex-col items-center justify-center pb-3 transition-all scale-0 duration-100 origin-center
+      className="search-c bg-white dark:bg-bdark h-32 w-11/12 lg:w-8/12
+    mt-20 rounded-md flex flex-col items-center justify-center pb-3 transition-all scale-0 duration-100 origin-center z-51
     "
     >
       <div className="w-11/12">
@@ -38,7 +38,7 @@ export default function Modal() {
   return isSearch ? (
     <>
     <div
-      className="modal fixed top-0 bottom-0 left-0 right-0 bg-modal flex justify-center"
+      className="modal fixed top-0 bottom-0 left-0 right-0 bg-modal flex justify-center z-50"
       onClick={(e) => handleHide(e)}
     >
       <ModalSearch />

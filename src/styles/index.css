@@ -1,4 +1,34 @@
 @tailwind base;
 @tailwind components;
+@layer components {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-cus::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: transparent;
+  }
+
+  .scrollbar-cus::-webkit-scrollbar {
+    width: 12px;
+    background-color: $semi-gray;
+  }
+
+  .scrollbar-cus::-webkit-scrollbar-track:hover {
+    width: 32px;
+  }
+
+  .scrollbar-cus::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #555;
+  }
+}
 @tailwind utilities;
-@import "https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css"
+@import "https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css";

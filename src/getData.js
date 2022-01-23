@@ -10,4 +10,12 @@ const getDetail = async (ep) => {
   return data.data;
 };
 
-module.exports = { getPopular, getDetail };
+const getPages = async ({ mangaEP, chapterEP }) => {
+  const res = await fetch(
+    `https://mangalh-api.vercel.app/manga/${mangaEP}/${chapterEP}`
+  );
+  const data = await res.json();
+  return data.data;
+};
+
+module.exports = { getPopular, getDetail, getPages };

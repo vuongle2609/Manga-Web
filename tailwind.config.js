@@ -13,7 +13,8 @@ module.exports = {
         transparent: 'transparent',
         bdark: "#27272a",
         sdarks: "#444444",
-        primary: "#ff6740"
+        primary: "#ff6740",
+        slights: "#e2e8f0"
       },
     },
   },

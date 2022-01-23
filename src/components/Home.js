@@ -2,6 +2,7 @@ import Slider from "react-slick";
 import { useEffect, useState } from "react";
 import { getPopular } from "../getData";
 import MangaCard from "./MangaCard";
+import Loading from './Loading'
 
 function HomeSlider(props) {
   const settings = {
@@ -64,7 +65,7 @@ function HomeSlider(props) {
       </div>
     </div>
   ) : (
-    false
+    <Loading />
   );
 }
 
@@ -88,7 +89,7 @@ function HomeNewest(props) {
       </div>
     </div>
   ) : (
-    false
+    <Loading />
   );
 }
 
