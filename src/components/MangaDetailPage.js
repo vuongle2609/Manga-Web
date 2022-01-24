@@ -145,9 +145,9 @@ function Body({ data, mangaEp }) {
               <span className="font-bold">Danh sách tập: </span>
               <div className="w-full max-h-60 overflow-scroll overflow-x-hidden scrollbar-cus px-2">
                 {data.chaps.map((chap, index) => (
-                  <Link to={`/read?name=${mangaEp}&chap=${chap.chapEP}`}>
+                  <Link to={`/read?name=${mangaEp}&chap=${chap.chapEP}`} key={index}>
                     <span
-                      key={index}
+          
                       className={
                         "flex justify-between p-1 select-none hover:cursor-pointer active:text-primary transition-all duration-75 rounded-sm" +
                         (index % 2 === 0 ? "" : " bg-slights dark:bg-sdarks")

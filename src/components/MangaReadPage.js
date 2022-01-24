@@ -1,8 +1,9 @@
 import { useLocation } from "react-router-dom";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 import { getPages } from "../getData";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
+import LazyLoad from "react-lazyload";
 
 function ChapNav({ data, mangaEP }) {
   const [chaplist, setChaplist] = useState(false);
@@ -12,7 +13,7 @@ function ChapNav({ data, mangaEP }) {
       document.querySelector(".choosen").scrollIntoView({
         block: "nearest",
       });
-    }, 300)
+    }, 300);
 
     const handleHide = (e) => {
       if (!e.target.classList.contains("chap-choose") && chaplist) {
@@ -148,12 +149,13 @@ export default function MangaReadPage() {
           <div className="col c-12"></div>
           <div className="col c-12">
             {data.pages.map((page, index) => (
-              <img
-                key={index}
-                src={page}
-                alt={`trang ${index}`}
-                className="w-full lg:px-14"
-              />
+              <LazyLoad key={index} height={300}>
+                <img
+                  src={page}
+                  alt={`trang ${index}`}
+                  className="w-full lg:px-14"
+                />
+              </LazyLoad>
             ))}
           </div>
           <div className="col c-12">

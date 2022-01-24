@@ -12,7 +12,7 @@ export default function ToTop() {
         " 
             onClick={scroll}
         >
-            <i class='bx bx-chevron-up'></i>
+            <i className='bx bx-chevron-up'></i>
         </div>
     )
 }
