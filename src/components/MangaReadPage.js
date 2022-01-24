@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import { getPages } from "../getData";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
@@ -8,6 +8,12 @@ function ChapNav({ data, mangaEP }) {
   const [chaplist, setChaplist] = useState(false);
 
   useEffect(() => {
+    setTimeout(() => {
+      document.querySelector(".choosen").scrollIntoView({
+        block: "nearest",
+      });
+    }, 300)
+
     const handleHide = (e) => {
       if (!e.target.classList.contains("chap-choose") && chaplist) {
         setChaplist(!chaplist);
@@ -20,11 +26,12 @@ function ChapNav({ data, mangaEP }) {
       document.removeEventListener("click", handleHide);
     };
   }, [chaplist]);
+
   return (
     <>
       <div
         className="hover:cursor-pointer bg-slights dark:bg-sdarks h-6 rounded-md w-full
-        dark:text-white justify-between pl-3 pr-7 select-none relative"
+        dark:text-white justify-between pl-3 pr-7 select-none relative flex"
         onClick={() => {
           setChaplist(!chaplist);
         }}
@@ -34,31 +41,30 @@ function ChapNav({ data, mangaEP }) {
         </span>
         <i class="bx bxs-chevron-down absolute top-1/2 -translate-y-1/2 right-1"></i>
       </div>
-      {chaplist ? (
-        <div className="chap-choose  absolute w-full bg-white dark:bg-sdarks left-0 top-8 rounded-md py-2">
-          <div className="chap-choose flex flex-col-reverse h-fit max-h-60 overflow-scroll scrollbar-cus overflow-x-hidden">
-            {data.chapterList.map((chap, index) => (
-              <Link
-                key={index}
-                to={`/read?name=${mangaEP}&chap=${chap.chapEP}`}
+
+      <div
+        className={
+          "chap-choose  absolute w-full bg-white dark:bg-sdarks left-0 top-8 rounded-md py-2 duration-150 origin-top" +
+          (chaplist ? " scale-100" : " scale-0")
+        }
+      >
+        <div className="chap-choose chap-choose-scroll flex flex-col-reverse h-fit max-h-60 overflow-scroll scrollbar-cus overflow-x-hidden">
+          {data.chapterList.map((chap, index) => (
+            <Link key={index} to={`/read?name=${mangaEP}&chap=${chap.chapEP}`}>
+              <span
+                className={
+                  "chap-choose h-6 flex items-center px-3 w-full active:text-primary active:dark:text-primary select-none hover:cursor-pointer overflow-hidden whitespace-nowrap text-ellipsis " +
+                  (chap.chapter === data.currentChapter
+                    ? " text-primary choosen"
+                    : " dark:text-white")
+                }
               >
-                <span
-                  className={
-                    "chap-choose h-6 flex items-center px-3 w-full active:text-primary active:dark:text-primary select-none hover:cursor-pointer overflow-hidden whitespace-nowrap text-ellipsis " +
-                    (chap.chapter === data.currentChapter
-                      ? " text-primary"
-                      : " dark:text-white")
-                  }
-                >
-                  {chap.chapter}
-                </span>
-              </Link>
-            ))}
-          </div>
+                {chap.chapter}
+              </span>
+            </Link>
+          ))}
         </div>
-      ) : (
-        false
-      )}
+      </div>
     </>
   );
 }
@@ -93,20 +99,23 @@ function Navbar({ data, mangaEP }) {
         <div className="row">
           <div className="col c-12">
             <div className="flex items-center justify-center w-full">
-              <Link to={`/home`}>
-                <i className="hover:cursor-pointer px-1 bx bx-home text-2xl text-white dark:text-black"></i>
+              <Link
+                to={`/home`}
+                className="bg-slights dark:bg-bdark flex items-center rounded-md"
+              >
+                <i className="hover:cursor-pointer px-1 bx bx-home text-2xl dark:text-white text-black"></i>
               </Link>
               <Link to={`/read?name=${mangaEP}&chap=${data.prevChapter}`}>
-                <i className="hover:cursor-pointer px-1 bx bx-chevron-left text-4xl text-white dark:text-black"></i>
+                <i className="hover:cursor-pointer px-1 bx bx-chevron-left text-4xl dark:text-white text-black"></i>
               </Link>
               <div className="relative w-7/12">
                 <ChapNav data={data} mangaEP={mangaEP} />
               </div>
               <Link to={`/read?name=${mangaEP}&chap=${data.nextChapter}`}>
-                <i className="hover:cursor-pointer px-1 bx bx-chevron-right text-4xl text-white dark:text-black"></i>
+                <i className="hover:cursor-pointer px-1 bx bx-chevron-right text-4xl dark:text-white text-black"></i>
               </Link>
-              <span>
-                <i className="hover:cursor-pointer px-1 bx bx-menu text-2xl text-white dark:text-black"></i>
+              <span className="rounded-md flex items-center">
+                <i className="hover:cursor-pointer px-1 bx bx-menu text-2xl dark:text-white text-black"></i>
               </span>
             </div>
           </div>
@@ -139,8 +148,37 @@ export default function MangaReadPage() {
           <div className="col c-12"></div>
           <div className="col c-12">
             {data.pages.map((page, index) => (
-              <img key={index} src={page} alt="" className="w-full" />
+              <img
+                key={index}
+                src={page}
+                alt={`trang ${index}`}
+                className="w-full lg:px-14"
+              />
             ))}
+          </div>
+          <div className="col c-12">
+            <div className="w-full flex justify-center mt-3">
+              {data.prevChapter.length !== 0 ? (
+                <Link
+                  to={`/read?name=${mangaEP}&chap=${data.prevChapter}`}
+                  className="w-30 px-4 py-2 bg-primary rounded-md text-white mr-2 select-none"
+                >
+                  Chap trước
+                </Link>
+              ) : (
+                false
+              )}
+              {data.nextChapter.length !== 0 ? (
+                <Link
+                  to={`/read?name=${mangaEP}&chap=${data.nextChapter}`}
+                  className="w-30 px-4 py-2 bg-primary rounded-md text-white ml-2 select-none"
+                >
+                  Chap sau
+                </Link>
+              ) : (
+                false
+              )}
+            </div>
           </div>
         </div>
       </div>

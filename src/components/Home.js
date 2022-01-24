@@ -2,7 +2,7 @@ import Slider from "react-slick";
 import { useEffect, useState } from "react";
 import { getPopular } from "../getData";
 import MangaCard from "./MangaCard";
-import Loading from './Loading'
+import Loading from "./Loading";
 
 function HomeSlider(props) {
   const settings = {
@@ -43,25 +43,23 @@ function HomeSlider(props) {
     ],
   };
   return props.data ? (
-    <div className="grid wide">
-      <div className="row">
-        <div className="w-[100%] mb-5">
-          <h2 className="mb-3 font-medium text-1xl dark:text-white">
-            Đọc nhiều nhất trong ngày
-          </h2>
-          <Slider {...settings}>
-            {props.data.daily.map((manga, index) => (
-              <div className="w-full px-1" key={index}>
-                <MangaCard
-                  title={manga.title}
-                  lastChap={manga.lastChap}
-                  cover={manga.cover}
-                  mangaEP={manga.mangaEP}
-                />
-              </div>
-            ))}
-          </Slider>
-        </div>
+    <div className="row">
+      <div className="w-[100%] mb-2">
+        <h2 className="mb-3 font-medium text-1xl dark:text-white lg:text-2xl">
+          Đọc nhiều nhất trong ngày
+        </h2>
+        <Slider {...settings}>
+          {props.data.daily.map((manga, index) => (
+            <div className="w-full px-1" key={index}>
+              <MangaCard
+                title={manga.title}
+                lastChap={manga.lastChap}
+                cover={manga.cover}
+                mangaEP={manga.mangaEP}
+              />
+            </div>
+          ))}
+        </Slider>
       </div>
     </div>
   ) : (
@@ -71,8 +69,8 @@ function HomeSlider(props) {
 
 function HomeNewest(props) {
   return props.data ? (
-    <div className="grid wide">
-      <h2 className="mb-3 font-medium text-1xl dark:text-white">
+    <>
+      <h2 className="mb-3 font-medium text-1xl dark:text-white lg:text-2xl">
         Mới cập nhật
       </h2>
       <div className="row">
@@ -87,7 +85,7 @@ function HomeNewest(props) {
           </div>
         ))}
       </div>
-    </div>
+    </>
   ) : (
     <Loading />
   );
@@ -107,9 +105,9 @@ export default function Home() {
     }
   }, []);
   return (
-    <>
+    <div className="grid wide">
       <HomeSlider data={data} />
       <HomeNewest data={data} />
-    </>
+    </div>
   );
 }
