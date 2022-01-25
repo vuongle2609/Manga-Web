@@ -177,8 +177,9 @@ export default function MangaDetailPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    setData(false)
     getDetail(mangaEP).then(setData);
-  }, []);
+  }, [location]);
 
   return data ? (
     <div className="relative min-h-screen w-full">

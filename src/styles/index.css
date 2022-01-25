@@ -44,7 +44,7 @@
   }
 
   .opacity-ani {
-    animation: opa 0.2s ease-out;
+    animation: opa 0.2s linear;
   }
 }
 @tailwind utilities;

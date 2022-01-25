@@ -121,7 +121,7 @@ function Navbar({ data, mangaEP }) {
                 to={`/home`}
                 className="flex items-center rounded-md"
               >
-                <i className="hover:cursor-pointer px-1 bx bx-home text-2xl dark:text-white text-black"></i>
+                <i className="hover:cursor-pointer px-1 bx bxs-home text-2xl dark:text-white text-black"></i>
               </Link>
               <Link to={prevLink}>
                 <i className="hover:cursor-pointer px-1 bx bx-chevron-left text-4xl dark:text-white text-black"></i>
@@ -132,9 +132,9 @@ function Navbar({ data, mangaEP }) {
               <Link to={nextLink}>
                 <i className="hover:cursor-pointer px-1 bx bx-chevron-right text-4xl dark:text-white text-black"></i>
               </Link>
-              <span className="rounded-md flex items-center">
-                <i className="hover:cursor-pointer px-1 bx bx-menu text-2xl dark:text-white text-black"></i>
-              </span>
+              <Link to={`/manga?name=${mangaEP}`} className="rounded-md flex items-center">
+                <i className="hover:cursor-pointer px-1 bx bxs-book-alt text-2xl dark:text-white text-black"></i>
+              </Link>
             </div>
           </div>
         </div>

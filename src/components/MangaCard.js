@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import LazyLoad from "react-lazyload";
 
 export default function MangaCard(props) {
+
   return (
     <div className="w-full mb-3">
       <LazyLoad>

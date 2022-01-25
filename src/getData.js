@@ -42,6 +42,20 @@ export const getList = async ({ list, genre, status, sort, page }) => {
   return data.data;
 };
 
+export const getSearch = async ({ keyword }) => {
+  if (keyword.length > 0) {
+    console.log(`https://mangalh-api.vercel.app/search?keyword=${keyword}`);
+    const res = await fetch(
+      `https://mangalh-api.vercel.app/search?keyword=${keyword}`
+    );
+    const data = await res.json();
+
+    return data.data;
+  } else {
+    return false;
+  }
+};
+
 export const handleURL = ({ list, genre, status, sort }) => {
   return (
     "/list?" +
@@ -59,7 +73,7 @@ export const getUrlStatus = ({ list, genre, status }) => {
     (genre ? `genre=${genre}` : "") +
     (status ? `&status=${status}` : "")
   );
-}
+};
 
 export const getUrlSort = ({ list, genre, sort }) => {
   return (
@@ -68,4 +82,4 @@ export const getUrlSort = ({ list, genre, sort }) => {
     (genre ? `genre=${genre}` : "") +
     (sort ? `&sort=${sort}` : "")
   );
-}
+};
