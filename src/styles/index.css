@@ -33,6 +33,19 @@
   * {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
+
+  @keyframes opa {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .opacity-ani {
+    animation: opa 0.2s ease-out;
+  }
 }
 @tailwind utilities;
 @import "https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css";

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getList } from "../getData";
 import MangaCard from "./MangaCard";
 import Loading from "./Loading";
+import {handleURL} from "../getData"
 
 function Mangas({ data }) {
   return (
@@ -20,7 +21,7 @@ function Mangas({ data }) {
   );
 }
 
-function PageBtn({ index, ep, currpage, totalPages }) {
+function PageBtn({ index, ep, currpage, totalPages, linkList }) {
   let button;
 
   if (index === Number(currpage) + 1 && index < totalPages - 2) {
@@ -38,7 +39,7 @@ function PageBtn({ index, ep, currpage, totalPages }) {
     button = (
       <Link
         key={index}
-        to={`/list?list=true${ep}`}
+        to={`${linkList}${ep}`}
         aria-current="page"
         onClick={() => {
           window.scrollTo(0, 0);
@@ -58,7 +59,7 @@ function PageBtn({ index, ep, currpage, totalPages }) {
   return button;
 }
 
-function Paginations({ data, currpage }) {
+function Paginations({ data, currpage, linkList }) {
   const totalPages = data.totalPages;
 
   const arrPages = [];
@@ -80,18 +81,20 @@ function Paginations({ data, currpage }) {
             aria-label="Pagination"
           >
             <Link
-              to={`/list?list=true&page=1`}
+              to={`${linkList}&page=1`}
               onClick={() => {
                 window.scrollTo(0, 0);
               }}
               className="relative inline-flex items-center px-2 py-2 rounded-l-md border dark:text-white border-gray-300 bg-slights dark:bg-sdarks text-sm font-medium text-gray-500 hover:bg-gray-50"
             >
               <span className="sr-only">Previous</span>
-              <i class="bx bxs-chevrons-left"></i>
+              <i className="bx bxs-chevrons-left"></i>
             </Link>
 
             {arrPages.map((ep, index) => (
               <PageBtn
+              linkList={linkList}
+                key={index}
                 ep={ep}
                 currpage={currpage}
                 index={index}
@@ -100,14 +103,14 @@ function Paginations({ data, currpage }) {
             ))}
 
             <Link
-              to={`/list?list=true&page=${totalPages}`}
+              to={`${linkList}&page=${totalPages}`}
               onClick={() => {
                 window.scrollTo(0, 0);
               }}
               className="relative inline-flex items-center px-2 py-2 rounded-r-md border dark:text-white border-gray-300 bg-slights dark:bg-sdarks text-sm font-medium text-gray-500 hover:bg-gray-50"
             >
               <span className="sr-only">Next</span>
-              <i class="bx bxs-chevrons-right"></i>
+              <i className="bx bxs-chevrons-right"></i>
             </Link>
           </nav>
         </div>
@@ -126,9 +129,9 @@ export default function ListManga() {
   const genre = query.get("genre");
   const status = query.get("status");
   const sort = query.get("sort");
-  const page = query.get("page");
+  const page = query.get("page") ? query.get("page") : 1;
 
-  let filter = {
+  const filter = {
     list,
     genre,
     status,
@@ -136,7 +139,9 @@ export default function ListManga() {
     page,
   };
 
+  let linkList = handleURL(filter)
   useEffect(() => {
+    linkList = handleURL(filter)
     setData(false);
     getList(filter).then((data) => setData(data));
   }, [location]);
@@ -152,7 +157,7 @@ export default function ListManga() {
       </div>
       <div className="row">
         <div className="col c-12">
-          {data ? <Paginations data={data} currpage={page} /> : false}
+          {data ? <Paginations data={data} currpage={page} linkList={linkList}/> : false}
         </div>
       </div>
     </div>

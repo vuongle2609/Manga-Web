@@ -8,7 +8,7 @@ import { Routes, Route } from "react-router-dom";
 
 export default function MainApp() {
   return (
-    <div className={"w-screen bg-slate-100 min-h-screen dark:bg-bdark"}>
+    <div className={"w-screen bg-slate-100 min-h-screen dark:bg-bdark transition-all duration-100"}>
       <Routes>
         <Route path="*" element={<Error />} />
         <Route path="/" index element={<Home />} />

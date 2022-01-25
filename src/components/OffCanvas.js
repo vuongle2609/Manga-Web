@@ -2,8 +2,14 @@ import store from "../state";
 import { Link } from "react-router-dom";
 
 function CanvasSections(props) {
-  return (
-    <Link to={props.path}>
+  const { setCanvas } = store();
+  return props.list ? (
+    <li className={"flex items-center justify-start py-2 px-3 dark:text-white"} onClick={props.set}>
+      <i className={`bx bx-${props.icon} mr-1 text-2xl`}></i>
+      <span className="select-none font-medium">{props.name}</span>
+    </li>
+  ) : (
+    <Link to={props.path} onClick={setCanvas}>
       <li
         className={"flex items-center justify-start py-2 px-3 dark:text-white"}
       >
@@ -15,7 +21,7 @@ function CanvasSections(props) {
 }
 
 export default function OffCanvas() {
-  const { canvas, setCanvas } = store();
+  const { canvas, setCanvas, setGenres } = store();
   return (
     <>
       <div
@@ -36,19 +42,15 @@ export default function OffCanvas() {
               Paff Wandering
             </h2>
           </div>
-          <CanvasSections
-            name="Trang chủ"
-            icon="home"
-            path="/home"
-          />
+          <CanvasSections name="Trang chủ" icon="home" path="/home" />
 
-          <CanvasSections name="Yêu thích" icon="heart"  path="/list"/>
-          <CanvasSections name="Lịch sử" icon="history"  path=""/>
-          <CanvasSections name="Ngẫu nhiên" icon="shuffle"  path=""/>
-          <CanvasSections name="Thể loại" icon="menu"  path=""/>
-          <CanvasSections name="Thông báo" icon="bell"  path=""/>
+          <CanvasSections name="Yêu thích" icon="heart" path="/list" />
+          <CanvasSections name="Lịch sử" icon="history" path="" />
+          <CanvasSections name="Ngẫu nhiên" icon="shuffle" path="" />
+          <CanvasSections name="Thể loại" icon="menu" path="" list="true" set={setGenres}/>
+          <CanvasSections name="Thông báo" icon="bell" path="" />
           <CanvasSections name="Cài đặt" icon="cog" path="" />
-          <CanvasSections name="Người dùng" icon="user"  path=""/>
+          <CanvasSections name="Người dùng" icon="user" path="" />
         </ul>
       </div>
       {canvas ? (

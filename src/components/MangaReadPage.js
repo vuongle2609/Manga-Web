@@ -89,6 +89,23 @@ function Navbar({ data, mangaEP }) {
       false
     );
   }, []);
+
+  let prevLink;
+
+  if (data.prevChapter.length !== 0) {
+    prevLink = `/read?name=${mangaEP}&chap=${data.prevChapter}`;
+  } else {
+    prevLink = `/manga?name=${mangaEP}`;
+  }
+
+  let nextLink;
+
+  if (data.nextChapter.length !== 0) {
+    nextLink = `/read?name=${mangaEP}&chap=${data.nextChapter}`;
+  } else {
+    nextLink = `/manga?name=${mangaEP}`;
+  }
+
   return (
     <div
       className={
@@ -106,13 +123,13 @@ function Navbar({ data, mangaEP }) {
               >
                 <i className="hover:cursor-pointer px-1 bx bx-home text-2xl dark:text-white text-black"></i>
               </Link>
-              <Link to={`/read?name=${mangaEP}&chap=${data.prevChapter}`}>
+              <Link to={prevLink}>
                 <i className="hover:cursor-pointer px-1 bx bx-chevron-left text-4xl dark:text-white text-black"></i>
               </Link>
               <div className="relative w-7/12">
                 <ChapNav data={data} mangaEP={mangaEP} />
               </div>
-              <Link to={`/read?name=${mangaEP}&chap=${data.nextChapter}`}>
+              <Link to={nextLink}>
                 <i className="hover:cursor-pointer px-1 bx bx-chevron-right text-4xl dark:text-white text-black"></i>
               </Link>
               <span className="rounded-md flex items-center">
