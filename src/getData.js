@@ -43,19 +43,11 @@ export const getList = async ({ list, genre, status, sort, page }) => {
 };
 
 export const handleURL = ({ list, genre, status, sort }) => {
-  if (genre) {
-    return (
-      `/list?genre=${genre}` +
-      (genre ? `&genre=${genre}` : "") +
-      (status ? `&status=${status}` : "") +
-      (sort ? `&sort=${sort}` : "")
-    );
-  } else {
-    return (
-      "/list?list=true" +
-      (genre ? `&genre=${genre}` : "") +
-      (status ? `s&tatus=${status}` : "") +
-      (sort ? `&sort=${sort}` : "")
-    );
-  }
+  return (
+    "/list?" +
+    (list ? "list=true" : "") +
+    (genre ? `genre=${genre}` : "") +
+    (status ? `s&tatus=${status}` : "") +
+    (sort ? `&sort=${sort}` : "")
+  );
 };
