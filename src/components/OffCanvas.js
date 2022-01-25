@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function CanvasSections(props) {
   const { setCanvas } = store();
   return props.list ? (
-    <li className={"flex items-center justify-start py-2 px-3 dark:text-white"} onClick={props.set}>
+    <li className={"flex items-center justify-start py-2 px-3 dark:text-white hover:cursor-pointer"} onClick={props.set}>
       <i className={`bx bx-${props.icon} mr-1 text-2xl`}></i>
       <span className="select-none font-medium">{props.name}</span>
     </li>

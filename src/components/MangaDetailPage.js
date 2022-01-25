@@ -143,7 +143,7 @@ function Body({ data, mangaEp }) {
           <div className="py-3 px-2 row">
             <div className="col c-12 dark:text-white">
               <span className="font-bold">Danh sách tập: </span>
-              <div className="w-full max-h-60 overflow-scroll overflow-x-hidden scrollbar-cus px-2">
+              <div className="w-full h-60 lg:h-[400px] overflow-scroll overflow-x-hidden scrollbar-cus px-2">
                 {data.chaps.map((chap, index) => (
                   <Link to={`/read?name=${mangaEp}&chap=${chap.chapEP}`} key={index}>
                     <span

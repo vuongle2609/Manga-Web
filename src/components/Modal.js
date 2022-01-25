@@ -257,7 +257,7 @@ function ModalGenres() {
   ];
 
   return (
-    <div className="bg-white dark:bg-bdark h-fit w-10/12 self-center py-5 px-3 rounded-sm">
+    <div className="bg-white dark:bg-bdark h-fit w-10/12 lg:w-7/12 self-center py-5 px-3 rounded-sm">
       <div className="w-11/12">
         <h2 className="dark:text-white font-medium text-2xl mb-4">Thể loại</h2>
       </div>
@@ -270,7 +270,7 @@ function ModalGenres() {
               setGenres();
               setCanvas();
             }}
-            className="h-6 flex items-center px-3 col c-6 font-medium active:text-primary active:dark:text-primary select-none hover:cursor-pointer overflow-hidden whitespace-nowrap text-ellipsis dark:text-white"
+            className="h-6 flex items-center px-3 mb-2 col s-6 c-2 font-medium active:text-primary active:dark:text-primary select-none hover:cursor-pointer overflow-hidden whitespace-nowrap text-ellipsis dark:text-white"
           >
             {genre.genre}
           </Link>
@@ -282,6 +282,24 @@ function ModalGenres() {
 
 export default function Modal() {
   const { isSearch, setSearch, isGenres, setGenres } = store();
+
+  useEffect(() => {
+    const TopScroll = window.pageYOffset || document.documentElement.scrollTop;
+    const LeftScroll =
+      window.pageXOffset || document.documentElement.scrollLeft;
+
+    const scroll = () => {
+      window.scrollTo(LeftScroll, TopScroll);
+    };
+
+    if (isSearch || isGenres) {
+      window.addEventListener("scroll", scroll);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", scroll);
+    };
+  }, [isSearch, isGenres]);
 
   const handleHide = (e) => {
     if (e.target.classList.contains("modal")) {

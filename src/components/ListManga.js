@@ -3,7 +3,115 @@ import { useState, useEffect } from "react";
 import { getList } from "../getData";
 import MangaCard from "./MangaCard";
 import Loading from "./Loading";
-import {handleURL} from "../getData"
+import { handleURL, getUrlStatus, getUrlSort } from "../getData";
+
+function Options({ options, sort, status, linkStatus, linkSort }) {
+  const [category, setCategory] = useState(false);
+
+  const handleCategory = () => {
+    setCategory((prev) => !prev);
+  };
+
+  let sortDisplay;
+
+  let statusDisplay;
+
+  switch (sort) {
+    case "0":
+      sortDisplay = "A-z";
+      break;
+    case "1":
+      sortDisplay = "Z-a";
+      break;
+    case "2":
+      sortDisplay = "Mới cập nhật";
+      break;
+    case "3":
+      sortDisplay = "Truyện mới";
+      break;
+    case "4":
+      sortDisplay = "Xem nhiều";
+      break;
+    case "5":
+      sortDisplay = "Yêu thích nhiều";
+      break;
+    default:
+      sortDisplay = "A-z";
+  }
+
+  switch (status) {
+    case "0":
+      statusDisplay = "Đang tiến hành";
+      break;
+    case "1":
+      statusDisplay = "Tạm ngưng";
+      break;
+    case "2":
+      statusDisplay = "Hoàn thành";
+      break;
+    default:
+      statusDisplay = "Tất cả";
+  }
+
+  const sortArr = [
+    "A-z",
+    "Z-a",
+    "Mới cập nhật",
+    "Truyện mới",
+    "Xem nhiều",
+    "Yêu thích nhiều",
+  ];
+
+  const statusArr = ["Đang tiến hành", "Tạm ngưng", "Hoàn thành"];
+
+  let tableOptions;
+
+  if (options !== "sort") {
+    tableOptions = statusArr.map((item, index) => (
+      <li key={index} className={"py-1 select-none"}>
+        <Link key={index} to={`${linkSort}&status=${index}`}>
+          {item}
+        </Link>
+      </li>
+    ));
+  } else {
+    tableOptions = sortArr.map((item, index) => (
+      <li key={index} className={"py-1 select-none"}>
+        <Link to={`${linkStatus}&sort=${index}`}>{item}</Link>
+      </li>
+    ));
+  }
+
+  return (
+    <div
+      className="min-w-[100px] w-fit bg-slights dark:bg-sdarks mr-3 flex items-center justify-center
+      py-2 px-3 rounded-md hover:cursor-pointer dark:text-white relative mb-2 lg:mb-6
+    "
+      onClick={handleCategory}
+    >
+      <span className="font-medium  select-none">
+        {options === "sort"
+          ? "Sắp xếp theo: " + sortDisplay
+          : "Trạng thái: " + statusDisplay}
+      </span>
+      <i
+        className={
+          "bx pl-1" + (category ? " bx-chevron-up" : " bx-chevron-down")
+        }
+      ></i>
+
+      <ul
+        className={
+          "absolute h-fit w-full bg-slights dark:bg-sdarks rounded-md top-[110%] left-0 py-1 px-2 duration-150 origin-top-right" +
+          (options === "sort" ? " z-30" : " z-10") +
+          (category ? " scale-100" : " scale-0")
+        }
+      >
+        {tableOptions}
+      </ul>
+    </div>
+  );
+}
 
 function Mangas({ data }) {
   return (
@@ -93,7 +201,7 @@ function Paginations({ data, currpage, linkList }) {
 
             {arrPages.map((ep, index) => (
               <PageBtn
-              linkList={linkList}
+                linkList={linkList}
                 key={index}
                 ep={ep}
                 currpage={currpage}
@@ -128,7 +236,7 @@ export default function ListManga() {
   const list = query.get("list");
   const genre = query.get("genre");
   const status = query.get("status");
-  const sort = query.get("sort");
+  const sort = query.get("sort") ? query.get("sort") : 0;
   const page = query.get("page") ? query.get("page") : 1;
 
   const filter = {
@@ -139,15 +247,33 @@ export default function ListManga() {
     page,
   };
 
-  let linkList = handleURL(filter)
+  let linkList = handleURL(filter);
+  let linkStatus = getUrlStatus(filter);
+  let linkSort = getUrlSort(filter);
   useEffect(() => {
-    linkList = handleURL(filter)
+    linkList = handleURL(filter);
     setData(false);
     getList(filter).then((data) => setData(data));
   }, [location]);
 
   return (
     <div className="grid wide">
+      <div className="row">
+        <div className="col c-12 flex lg:items-center lg:justify-start flex-col lg:flex-row">
+          <Options
+            options="sort"
+            sort={sort}
+            linkStatus={linkStatus}
+            linkSort={linkSort}
+          />
+          <Options
+            options="status"
+            status={status}
+            linkStatus={linkStatus}
+            linkSort={linkSort}
+          />
+        </div>
+      </div>
       <div className="row">
         {data ? (
           data.mangas.map((manga, i) => <Mangas key={i} data={manga} />)
@@ -157,7 +283,11 @@ export default function ListManga() {
       </div>
       <div className="row">
         <div className="col c-12">
-          {data ? <Paginations data={data} currpage={page} linkList={linkList}/> : false}
+          {data ? (
+            <Paginations data={data} currpage={page} linkList={linkList} />
+          ) : (
+            false
+          )}
         </div>
       </div>
     </div>

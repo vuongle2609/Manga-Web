@@ -12,7 +12,7 @@ export default function Navbar() {
         <div className="row justify-between items-center">
           <div className="flex items-center">
             <i
-              className="bx bx-menu-alt-left dark:text-white text-3xl mr-1"
+              className="bx bx-menu-alt-left dark:text-white text-3xl mr-1 hover:cursor-pointer"
               onClick={setCanvas}
             ></i>
             <Link to={'/home'}

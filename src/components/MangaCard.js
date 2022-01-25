@@ -8,7 +8,7 @@ export default function MangaCard(props) {
         <Link to={`/manga?name=${props.mangaEP}`}>
           <div
             style={{ backgroundImage: `url('${props.cover}')` }}
-            className="pt-[142.5%] bg-cover rounded-sm relative"
+            className="pt-[142.5%] bg-cover rounded-md relative shadow-sm shadow-black"
           >
             <h4
               className="font-semibold line-clamp-2 text-white 

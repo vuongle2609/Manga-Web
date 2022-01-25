@@ -47,7 +47,25 @@ export const handleURL = ({ list, genre, status, sort }) => {
     "/list?" +
     (list ? "list=true" : "") +
     (genre ? `genre=${genre}` : "") +
-    (status ? `s&tatus=${status}` : "") +
+    (status ? `&status=${status}` : "") +
     (sort ? `&sort=${sort}` : "")
   );
 };
+
+export const getUrlStatus = ({ list, genre, status }) => {
+  return (
+    "/list?" +
+    (list ? "list=true" : "") +
+    (genre ? `genre=${genre}` : "") +
+    (status ? `&status=${status}` : "")
+  );
+}
+
+export const getUrlSort = ({ list, genre, sort }) => {
+  return (
+    "/list?" +
+    (list ? "list=true" : "") +
+    (genre ? `genre=${genre}` : "") +
+    (sort ? `&sort=${sort}` : "")
+  );
+}

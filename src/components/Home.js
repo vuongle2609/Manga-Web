@@ -11,7 +11,7 @@ function HomeSlider(props) {
     arrows: false,
     speed: 300,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 3000,
     slidesToShow: 6,
     slidesToScroll: 3,
     responsive: [

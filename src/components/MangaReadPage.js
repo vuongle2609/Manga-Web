@@ -31,7 +31,7 @@ function ChapNav({ data, mangaEP }) {
   return (
     <>
       <div
-        className="hover:cursor-pointer bg-slights dark:bg-sdarks h-6 rounded-md w-full
+        className="hover:cursor-pointer bg-white dark:bg-bdark h-6 rounded-md w-full
         dark:text-white justify-between pl-3 pr-7 select-none relative flex"
         onClick={() => {
           setChaplist(!chaplist);
@@ -45,7 +45,7 @@ function ChapNav({ data, mangaEP }) {
 
       <div
         className={
-          "chap-choose  absolute w-full bg-white dark:bg-sdarks left-0 top-8 rounded-md py-2 duration-150 origin-top" +
+          "chap-choose  absolute w-full bg-white dark:bg-bdark left-0 top-8 rounded-md py-2 duration-150 origin-top-right" +
           (chaplist ? " scale-100" : " scale-0")
         }
       >
@@ -109,7 +109,7 @@ function Navbar({ data, mangaEP }) {
   return (
     <div
       className={
-        "nav-m w-full h-12 bg-primary sticky transition-all duration-150 flex items-center left-0 right-0" +
+        "nav-m w-full h-12 bg-slights dark:bg-sdarks sticky transition-all duration-150 flex items-center left-0 right-0" +
         (hide ? " -top-14" : " top-0")
       }
     >
@@ -119,7 +119,7 @@ function Navbar({ data, mangaEP }) {
             <div className="flex items-center justify-center w-full">
               <Link
                 to={`/home`}
-                className="bg-slights dark:bg-bdark flex items-center rounded-md"
+                className="flex items-center rounded-md"
               >
                 <i className="hover:cursor-pointer px-1 bx bx-home text-2xl dark:text-white text-black"></i>
               </Link>
