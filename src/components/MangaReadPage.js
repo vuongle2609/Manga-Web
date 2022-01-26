@@ -22,7 +22,7 @@ function ChapNav({ data, mangaEP }) {
     };
 
     document.addEventListener("click", handleHide);
-    
+
     return () => {
       document.removeEventListener("click", handleHide);
     };
@@ -40,7 +40,7 @@ function ChapNav({ data, mangaEP }) {
         <span className="w-full block overflow-hidden whitespace-nowrap text-ellipsis">
           {data.currentChapter}
         </span>
-        <i class="bx bxs-chevron-down absolute top-1/2 -translate-y-1/2 right-1"></i>
+        <i className="bx bxs-chevron-down absolute top-1/2 -translate-y-1/2 right-1"></i>
       </div>
 
       <div
@@ -74,11 +74,11 @@ function Navbar({ data, mangaEP }) {
   const [hide, setHide] = useState(false);
 
   useEffect(() => {
-    var lastScrollTop = 0;
+    let lastScrollTop = 0;
     window.addEventListener(
       "scroll",
       function () {
-        var st = window.pageYOffset || document.documentElement.scrollTop;
+        let st = window.pageYOffset || document.documentElement.scrollTop;
         if (st > lastScrollTop) {
           setHide(true);
         } else {
@@ -117,22 +117,22 @@ function Navbar({ data, mangaEP }) {
         <div className="row">
           <div className="col c-12">
             <div className="flex items-center justify-center w-full">
-              <Link
-                to={`/home`}
-                className="flex items-center rounded-md"
-              >
+              <Link to={`/home`} className="flex items-center rounded-md">
                 <i className="hover:cursor-pointer px-1 bx bxs-home text-2xl dark:text-white text-black"></i>
               </Link>
               <Link to={prevLink}>
-                <i className="hover:cursor-pointer px-1 bx bx-chevron-left text-4xl dark:text-white text-black"></i>
+                <i className="prev-chap hover:cursor-pointer px-1 bx bx-chevron-left text-4xl dark:text-white text-black"></i>
               </Link>
               <div className="relative w-7/12">
                 <ChapNav data={data} mangaEP={mangaEP} />
               </div>
               <Link to={nextLink}>
-                <i className="hover:cursor-pointer px-1 bx bx-chevron-right text-4xl dark:text-white text-black"></i>
+                <i className="next-chap hover:cursor-pointer px-1 bx bx-chevron-right text-4xl dark:text-white text-black"></i>
               </Link>
-              <Link to={`/manga?name=${mangaEP}`} className="rounded-md flex items-center">
+              <Link
+                to={`/manga?name=${mangaEP}`}
+                className="rounded-md flex items-center"
+              >
                 <i className="hover:cursor-pointer px-1 bx bxs-book-alt text-2xl dark:text-white text-black"></i>
               </Link>
             </div>
@@ -156,6 +156,18 @@ export default function MangaReadPage() {
     window.scrollTo(0, 0);
     setData(false);
     getPages({ mangaEP, chapterEP }).then(setData);
+
+    const handleChap = (e) => {
+      if (e.code === "ArrowRight") {
+        document.querySelector(".next-chap").click();
+      } else if (e.code === "ArrowLeft") {
+        document.querySelector(".prev-chap").click();
+      }
+    };
+
+    document.addEventListener("keydown", (e) => handleChap(e));
+
+    return document.removeEventListener("keydown", (e) => handleChap(e));
   }, [location]);
 
   return data ? (
