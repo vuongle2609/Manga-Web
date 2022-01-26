@@ -8,7 +8,6 @@ function ModalSearch({ setSearch }) {
   const [keyword, setKeyword] = useState("");
   const [data, setData] = useState(false);
 
-  console.log(keyword);
   useEffect(() => {
     document.querySelector(".search").focus();
     document.querySelector(".search-c").classList.remove("scale-0");
@@ -17,13 +16,11 @@ function ModalSearch({ setSearch }) {
     getSearch({ keyword }).then(setData);
   }, [keyword]);
 
-  console.log(data);
-
   return (
     <div
       className="search-c bg-white dark:bg-bdark lg:h-fit lg:max-h-[95%] lg:w-8/12 fixed top-0 right-0 left-0 
     bottom-0 lg:relative p-5 lg:rounded-md lg:flex flex-col items-center justify-center transition-all
-    scale-0 duration-100 origin-center z-51" 
+    scale-0 duration-100 origin-center z-51 overflow-scroll overflow-x-hidden lg:overflow-y-hidden"   
     >
       <div className="w-full dark:text-white flex justify-between items-center">
         <h2 className=" font-medium text-2xl mb-4">Tìm kiếm</h2>
@@ -38,16 +35,16 @@ function ModalSearch({ setSearch }) {
         className="search h-10 w-full rounded-md bg-gray-200 dark:bg-gray-600 pl-3
           flex justify-start items-center relative cursor-text dark:text-white outline-none focus:outline-orange-400"
       />
-      {data ? (
+      { data ? (
         <>
-          <div className="w-full mt-5 dark:text-white flex justify-between items-center">
-            <h2 className="text-xl mb-2">Kết quả</h2>
+        <div className="w-full mt-5 dark:text-white flex justify-between items-center">
+            <h2 className="text-xl mb-2">{data.mangas.length > 0 ? "Kết quả" : "Không tìm thấy"}</h2>
             <i
               className="bx bx-right-arrow-alt text-3xl"
               onClick={setSearch}
             ></i>
-          </div>
-          <div className="row w-full flex-1 overflow-scroll scrollbar-cus overflow-x-hidden">
+          </div> 
+          <div className="row w-full flex-1 overflow-scroll scrollbar-cus overflow-x-hidden overflow-y-hidden lg:overflow-y-auto">
             {data.mangas.map((data, index) => (
               <div className="col s-6 c-2-4" key={index} onClick={setSearch}>
                 <MangaCard
@@ -322,24 +319,6 @@ function ModalGenres() {
 export default function Modal() {
   const { isSearch, setSearch, isGenres, setGenres } = store();
 
-  useEffect(() => {
-    const TopScroll = window.pageYOffset || document.documentElement.scrollTop;
-    const LeftScroll =
-      window.pageXOffset || document.documentElement.scrollLeft;
-
-    const scroll = () => {
-      window.scrollTo(LeftScroll, TopScroll);
-    };
-
-    if (isSearch || isGenres) {
-      window.addEventListener("scroll", scroll);
-    }
-
-    return () => {
-      window.removeEventListener("scroll", scroll);
-    };
-  }, [isSearch, isGenres]);
-
   const handleHide = (e) => {
     if (e.target.classList.contains("modal")) {
       if (isSearch) {
@@ -362,7 +341,7 @@ export default function Modal() {
     <>
       <div
         className="modal fixed top-0 bottom-0 left-0 right-0 bg-modal flex justify-center items-center z-50 opacity-ani"
-        onClick={(e) => handleHide(e)}
+        onMouseDown={(e) => handleHide(e)}
       >
         {content}
       </div>

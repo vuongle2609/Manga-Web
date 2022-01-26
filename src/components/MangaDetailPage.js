@@ -3,6 +3,7 @@ import { getDetail } from "../getData";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
+import { timeHandle } from "../getData";
 
 function Header({ data }) {
   const [time, setTime] = useState(false);
@@ -15,24 +16,8 @@ function Header({ data }) {
       title.classList.add("text-xl");
       title.classList.add("leading-6");
     }
-    const timeHandle = (ltime) => {
-      const date1 = new Date();
-      const date2 = new Date(ltime);
-      const dayB = date1.getDate() - date2.getDate();
-      const hourB = date1.getHours() - date2.getHours();
-      const minuteB = date1.getMinutes() - date2.getMinutes();
-      if (dayB === 0) {
-        if (hourB === 0) {
-          setTime(minuteB + " phút trước");
-        } else {
-          setTime(hourB + " giờ trước");
-        }
-      } else {
-        setTime(dayB + " ngày trước");
-      }
-    };
 
-    timeHandle(data.lastUpdate);
+    setTime(timeHandle(data.lastUpdate));
   }, []);
 
   return (
@@ -145,9 +130,11 @@ function Body({ data, mangaEp }) {
               <span className="font-bold">Danh sách tập: </span>
               <div className="w-full h-fit max-h-60 lg:max-h-[400px]  overflow-scroll overflow-x-hidden scrollbar-cus px-2">
                 {data.chaps.map((chap, index) => (
-                  <Link to={`/read?name=${mangaEp}&chap=${chap.chapEP}`} key={index}>
+                  <Link
+                    to={`/read?name=${mangaEp}&chap=${chap.chapEP}`}
+                    key={index}
+                  >
                     <span
-          
                       className={
                         "flex justify-between p-1 select-none hover:cursor-pointer active:text-primary transition-all duration-75 rounded-sm" +
                         (index % 2 === 0 ? "" : " bg-slights dark:bg-sdarks")
@@ -176,10 +163,41 @@ export default function MangaDetailPage() {
   const mangaEP = query.get("name");
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-    setData(false)
+    window.scrollTo(0, 0);
+    setData(false);
     getDetail(mangaEP).then(setData);
   }, [location]);
+
+  const mangaObj = {
+    title: data.title,
+    cover: data.cover,
+    mangaEP,
+    time: new Date(),
+    genres: data.genres,
+    view: data.view,
+    rating: data.rating,
+    status: data.status,
+  };
+
+  const handleHistory = () => {
+    if (!localStorage.getItem("manga-history")) {
+      const a = [mangaObj];
+      localStorage.setItem("manga-history", JSON.stringify(a));
+    } else {
+      const b = JSON.parse(localStorage.getItem("manga-history"));
+
+      const c = b.filter((manga) => {
+        if (data.title !== manga.title) {
+          return manga;
+        }
+      });
+
+      c.unshift(mangaObj);
+      localStorage.setItem("manga-history", JSON.stringify(c));
+    }
+  };
+
+  if (data) handleHistory();
 
   return data ? (
     <div className="relative min-h-screen w-full">

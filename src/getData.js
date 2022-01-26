@@ -44,7 +44,6 @@ export const getList = async ({ list, genre, status, sort, page }) => {
 
 export const getSearch = async ({ keyword }) => {
   if (keyword.length > 0) {
-    console.log(`https://mangalh-api.vercel.app/search?keyword=${keyword}`);
     const res = await fetch(
       `https://mangalh-api.vercel.app/search?keyword=${keyword}`
     );
@@ -53,6 +52,23 @@ export const getSearch = async ({ keyword }) => {
     return data.data;
   } else {
     return false;
+  }
+};
+
+export const timeHandle = (ltime) => {
+  const date1 = new Date();
+  const date2 = new Date(ltime);
+  const dayB = date1.getDate() - date2.getDate();
+  const hourB = date1.getHours() - date2.getHours();
+  const minuteB = date1.getMinutes() - date2.getMinutes();
+  if (dayB === 0) {
+    if (hourB === 0) {
+      return minuteB + " phút trước";
+    } else {
+      return hourB + " giờ trước";
+    }
+  } else {
+    return dayB + " ngày trước";
   }
 };
 

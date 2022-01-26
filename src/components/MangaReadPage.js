@@ -22,7 +22,7 @@ function ChapNav({ data, mangaEP }) {
     };
 
     document.addEventListener("click", handleHide);
-
+    
     return () => {
       document.removeEventListener("click", handleHide);
     };
