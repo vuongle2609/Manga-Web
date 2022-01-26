@@ -21,9 +21,9 @@ function ModalSearch({ setSearch }) {
 
   return (
     <div
-      className={
-        "search-c bg-white dark:bg-bdark lg:h-32 lg:w-8/12 fixed top-0 right-0 left-0 bottom-0 p-5 lg:mt-20 lg:rounded-md lg:flex flex-col items-center justify-center lg:pb-3 transition-all scale-0 duration-100 origin-center z-51"
-      }
+      className="search-c bg-white dark:bg-bdark lg:h-fit lg:max-h-[95%] lg:w-8/12 fixed top-0 right-0 left-0 
+    bottom-0 lg:relative p-5 lg:rounded-md lg:flex flex-col items-center justify-center transition-all
+    scale-0 duration-100 origin-center z-51" 
     >
       <div className="w-full dark:text-white flex justify-between items-center">
         <h2 className=" font-medium text-2xl mb-4">Tìm kiếm</h2>
@@ -35,11 +35,11 @@ function ModalSearch({ setSearch }) {
           setKeyword(e.target.value);
         }}
         value={keyword}
-        className="search h-10 lg:w-11/12 w-full rounded-md bg-gray-200 dark:bg-gray-600 pl-3
+        className="search h-10 w-full rounded-md bg-gray-200 dark:bg-gray-600 pl-3
           flex justify-start items-center relative cursor-text dark:text-white outline-none focus:outline-orange-400"
       />
       {data ? (
-        <div>
+        <>
           <div className="w-full mt-5 dark:text-white flex justify-between items-center">
             <h2 className="text-xl mb-2">Kết quả</h2>
             <i
@@ -47,9 +47,9 @@ function ModalSearch({ setSearch }) {
               onClick={setSearch}
             ></i>
           </div>
-          <div className="row">
+          <div className="row w-full flex-1 overflow-scroll scrollbar-cus overflow-x-hidden">
             {data.mangas.map((data, index) => (
-              <div className="col s-6" key={index} onClick={setSearch}>
+              <div className="col s-6 c-2-4" key={index} onClick={setSearch}>
                 <MangaCard
                   mangaEP={data.mangaEP}
                   cover={data.cover}
@@ -58,7 +58,7 @@ function ModalSearch({ setSearch }) {
               </div>
             ))}
           </div>
-        </div>
+        </>
       ) : (
         false
       )}
@@ -361,7 +361,7 @@ export default function Modal() {
   return isSearch || isGenres ? (
     <>
       <div
-        className="modal fixed top-0 bottom-0 left-0 right-0 bg-modal flex justify-center z-50 opacity-ani"
+        className="modal fixed top-0 bottom-0 left-0 right-0 bg-modal flex justify-center items-center z-50 opacity-ani"
         onClick={(e) => handleHide(e)}
       >
         {content}
