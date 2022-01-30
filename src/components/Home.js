@@ -76,7 +76,7 @@ function HomeNewest(props) {
       </h2>
       <div className="row">
         {props.data.newUpdate.map((manga, index) => (
-          <div className="col s-6 m-2-4 c-2-4" key={index}>
+          <div className="col s-6 m-2-4 c-3" key={index}>
             <MangaCard
               title={manga.title}
               lastChap={manga.lastChap}
@@ -85,12 +85,12 @@ function HomeNewest(props) {
             />
           </div>
         ))}
-        <div className="col s-6 m-2-4 c-2-4">
+        <div className="col s-6 m-2-4 c-3">
           <div className="w-full mb-3">
             <Link to={`/`}>
               <div className="pt-[142.5%] bg-cover rounded-md relative shadow-sm shadow-black bg-bdark dark:bg-slights">
                 <div className="absolute top-[46%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 flex flex-col align-center justify-center">
-                <i className='text-center bx bx-right-arrow-circle text-white text-5xl'></i>
+                  <i className="text-center bx bx-right-arrow-circle text-white text-5xl"></i>
                   <h4
                     className="font-semibold text-white 
                     font-md w-fit px-[10px] text-[18px] whitespace-nowrap"
@@ -99,8 +99,10 @@ function HomeNewest(props) {
                   </h4>
                 </div>
                 <span className="absolute w-full h-full bottom-0 left-0 bg-slate-900 opacity-50"></span>
-                <span className="absolute w-[86%] h-[86%] top-[50%] left-[50%] translate-x-[-50%]
-                 translate-y-[-50%] border-white border-2 rounded-md"></span>
+                <span
+                  className="absolute w-[86%] h-[86%] top-[50%] left-[50%] translate-x-[-50%]
+                 translate-y-[-50%] border-white border-2 rounded-md"
+                ></span>
               </div>
             </Link>
           </div>
@@ -112,14 +114,16 @@ function HomeNewest(props) {
   );
 }
 
-function HomeHistory() {
+function HomeSide(props) {
   const [data, setData] = useState(false);
 
   useEffect(() => {
     const history = localStorage.getItem("manga-history");
 
-    if (history) {
+    if (history && !props.data) {
       setData(JSON.parse(localStorage.getItem("manga-history")));
+    } else {
+      setData(props.data.newManga);
     }
   }, []);
 
@@ -128,7 +132,7 @@ function HomeHistory() {
       {data ? (
         <>
           <h2 className="mb-3 font-medium dark:text-white lg:text-xl">
-            Lịch sử đọc
+            {props.data ? "Truyện mới" : "Lịch sử đọc"}
           </h2>
           {data.map((item, index) => {
             if (index < 6) {
@@ -147,7 +151,7 @@ function HomeHistory() {
                       {item.title}
                     </h3>
                     <p className="text-xs select-none">
-                      {timeHandle(item.time)}
+                      {timeHandle(item.time ? item.time : item.lastUpdate)}
                     </p>
                   </div>
                 </Link>
@@ -156,7 +160,7 @@ function HomeHistory() {
           })}
           <Link
             to={"/"}
-            className="text-xl dark:text-white w-full text-center block hover:brightness-50 font-medium"
+            className="text-xl dark:text-white w-full text-center block hover:brightness-50 font-medium mb-6"
           >
             Xem Thêm...
           </Link>
@@ -189,7 +193,8 @@ export default function Home() {
           <HomeNewest data={data} />
         </div>
         <div className="col c-3 s-12">
-          <HomeHistory />
+          <HomeSide data={data} />
+          <HomeSide />
         </div>
       </div>
     </div>
