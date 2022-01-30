@@ -121,11 +121,22 @@ function HomeSide(props) {
     const history = localStorage.getItem("manga-history");
 
     if (history && !props.data) {
+      console.log('render history')
       setData(JSON.parse(localStorage.getItem("manga-history")));
-    } else if (props.data){
+    } else if (props.data) {
+      console.log('render new')
       setData(props.data.newManga);
     }
-  }, []);
+
+    if (props.data) {
+      console.log('render new')
+      setData(props.data.newManga);
+    }
+    else if (history) {
+      console.log('render history')
+      setData(JSON.parse(localStorage.getItem("manga-history")));
+    }
+  }, [props]);
 
   return (
     <>
@@ -180,7 +191,6 @@ export default function Home() {
       getPopular().then((data) => {
         localStorage.setItem("homeData", JSON.stringify(data));
         setData(data);
-        console.log(data)
       });
     } else {
       setData(JSON.parse(localStorage.getItem("homeData")));
