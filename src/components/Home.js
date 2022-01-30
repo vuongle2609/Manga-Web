@@ -180,6 +180,7 @@ export default function Home() {
       getPopular().then((data) => {
         localStorage.setItem("homeData", JSON.stringify(data));
         setData(data);
+        console.log(data)
       });
     } else {
       setData(JSON.parse(localStorage.getItem("homeData")));
