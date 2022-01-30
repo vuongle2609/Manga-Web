@@ -122,7 +122,7 @@ function HomeSide(props) {
 
     if (history && !props.data) {
       setData(JSON.parse(localStorage.getItem("manga-history")));
-    } else {
+    } else if (props.data){
       setData(props.data.newManga);
     }
   }, []);
