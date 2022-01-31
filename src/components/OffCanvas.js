@@ -45,8 +45,8 @@ export default function OffCanvas() {
           <CanvasSections name="Trang chủ" icon="home" path="/home" />
 
           <CanvasSections name="Yêu thích" icon="heart" path="/list" />
-          <CanvasSections name="Lịch sử" icon="history" path="" />
-          <CanvasSections name="Ngẫu nhiên" icon="shuffle" path="" />
+          <CanvasSections name="Lịch sử" icon="history" path="/list?history=true" />
+          {/* <CanvasSections name="Ngẫu nhiên" icon="shuffle" path="" /> */}
           <CanvasSections name="Thể loại" icon="menu" path="" list="true" set={setGenres}/>
           <CanvasSections name="Thông báo" icon="bell" path="" />
           <CanvasSections name="Cài đặt" icon="cog" path="" />

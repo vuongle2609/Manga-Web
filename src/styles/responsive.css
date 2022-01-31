@@ -327,131 +327,131 @@
         padding-right: 8px;
     }
 
-    .m-0 {
+    .rm-0 {
         display: none;
     }
 
-    .m-1,
-    .m-2,
-    .m-3,
-    .m-4,
-    .m-5,
-    .m-6,
-    .m-7,
-    .m-8,
-    .m-9,
-    .m-10,
-    .m-11,
-    .m-12 {
+    .rm-1,
+    .rm-2,
+    .rm-3,
+    .rm-4,
+    .rm-5,
+    .rm-6,
+    .rm-7,
+    .rm-8,
+    .rm-9,
+    .rm-10,
+    .rm-11,
+    .rm-12 {
         display: block;
     }
 
-    .m-1 {
+    .rm-1 {
         flex: 0 0 8.33333%;
         max-width: 8.33333%;
     }
 
-    .m-2 {
+    .rm-2 {
         flex: 0 0 16.66667%;
         max-width: 16.66667%;
     }
 
-    .m-2-4 {
+    .rm-2-4 {
         flex: 0 0 20%;
         max-width: 20%;
     }
 
-    .m-3 {
+    .rm-3 {
         flex: 0 0 25%;
         max-width: 25%;
     }
 
-    .m-4 {
+    .rm-4 {
         flex: 0 0 33.33333%;
         max-width: 33.33333%;
     }
 
-    .m-5 {
+    .rm-5 {
         flex: 0 0 41.66667%;
         max-width: 41.66667%;
     }
 
-    .m-6 {
+    .rm-6 {
         flex: 0 0 50%;
         max-width: 50%;
     }
 
-    .m-7 {
+    .rm-7 {
         flex: 0 0 58.33333%;
         max-width: 58.33333%;
     }
 
-    .m-8 {
+    .rm-8 {
         flex: 0 0 66.66667%;
         max-width: 66.66667%;
     }
 
-    .m-9 {
+    .rm-9 {
         flex: 0 0 75%;
         max-width: 75%;
     }
 
-    .m-10 {
+    .rm-10 {
         flex: 0 0 83.33333%;
         max-width: 83.33333%;
     }
 
-    .m-11 {
+    .rm-11 {
         flex: 0 0 91.66667%;
         max-width: 91.66667%;
     }
 
-    .m-12 {
+    .rm-12 {
         flex: 0 0 100%;
         max-width: 100%;
     }
 
-    .m-o-1 {
+    .rm-o-1 {
         margin-left: 8.33333%;
     }
 
-    .m-o-2 {
+    .rm-o-2 {
         margin-left: 16.66667%;
     }
 
-    .m-o-3 {
+    .rm-o-3 {
         margin-left: 25%;
     }
 
-    .m-o-4 {
+    .rm-o-4 {
         margin-left: 33.33333%;
     }
 
-    .m-o-5 {
+    .rm-o-5 {
         margin-left: 41.66667%;
     }
 
-    .m-o-6 {
+    .rm-o-6 {
         margin-left: 50%;
     }
 
-    .m-o-7 {
+    .rm-o-7 {
         margin-left: 58.33333%;
     }
 
-    .m-o-8 {
+    .rm-o-8 {
         margin-left: 66.66667%;
     }
 
-    .m-o-9 {
+    .rm-o-9 {
         margin-left: 75%;
     }
 
-    .m-o-10 {
+    .rm-o-10 {
         margin-left: 83.33333%;
     }
 
-    .m-o-11 {
+    .rm-o-11 {
         margin-left: 91.66667%;
     }
 }

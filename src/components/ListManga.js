@@ -1,5 +1,5 @@
 import { useLocation, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { getList } from "../getData";
 import MangaCard from "./MangaCard";
 import Loading from "./Loading";
@@ -113,8 +113,23 @@ function Options({ options, sort, status, linkStatus, linkSort }) {
   );
 }
 
-function Mangas({ data }) {
-  return (
+function Mangas({ data, del, setDel, history }) {
+  const deleteHandle = () => {
+    const localData = JSON.parse(localStorage.getItem("manga-history"));
+
+    const newLocalData = [];
+
+    localData.filter((manga) => {
+      if (!(data.mangaEP === manga.mangaEP)) {
+        newLocalData.push(manga);
+      }
+    });
+
+    localStorage.setItem("manga-history", JSON.stringify(newLocalData));
+    setDel(!del);
+  };
+
+  return data ? (
     <>
       <div className="col s-6 c-2">
         <div className="w-full">
@@ -123,9 +138,24 @@ function Mangas({ data }) {
             cover={data.cover}
             title={data.title}
           />
+          {history ? (
+            <div className="flex items-center justify-center mb-3 select-none">
+              <div
+                onClick={deleteHandle}
+                className="bg-red-500 py-1 px-3 rounded-md text-white flex items-center justify-center cursor-pointer"
+              >
+                <i className="bx bx-x text-xl"></i>
+                <span>Xóa</span>
+              </div>
+            </div>
+          ) : (
+            false
+          )}
         </div>
       </div>
     </>
+  ) : (
+    false
   );
 }
 
@@ -229,6 +259,7 @@ function Paginations({ data, currpage, linkList }) {
 
 export default function ListManga() {
   const [data, setData] = useState(false);
+  const [del, setDel] = useState(false);
 
   let location = useLocation();
   let query = new URLSearchParams(location.search);
@@ -238,6 +269,7 @@ export default function ListManga() {
   const status = query.get("status");
   const sort = query.get("sort") ? query.get("sort") : 0;
   const page = query.get("page") ? query.get("page") : 1;
+  let history = query.get("history");
 
   const filter = {
     list,
@@ -250,46 +282,80 @@ export default function ListManga() {
   let linkList = handleURL(filter);
   let linkStatus = getUrlStatus(filter);
   let linkSort = getUrlSort(filter);
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
-    linkList = handleURL(filter);
     setData(false);
-    getList(filter).then((data) => setData(data));
-  }, [location]);
+    if (!history) {
+      linkList = handleURL(filter);
+      getList(filter).then((data) => setData(data));
+    } else {
+      const historyData = localStorage.getItem("manga-history");
+
+      if (historyData) {
+        setData(JSON.parse(historyData));
+      } else {
+        setData(false);
+      }
+    }
+  }, [location, del]);
 
   return (
     <div className="grid wide">
-      <div className="row">
-        <div className="col c-12 flex lg:items-center lg:justify-start flex-col lg:flex-row">
-          <Options
-            options="sort"
-            sort={sort}
-            linkStatus={linkStatus}
-            linkSort={linkSort}
-          />
-          <Options
-            options="status"
-            status={status}
-            linkStatus={linkStatus}
-            linkSort={linkSort}
-          />
-        </div>
-      </div>
-      <div className="row">
-        {data ? (
-          data.mangas.map((manga, i) => <Mangas key={i} data={manga} />)
-        ) : (
-          <Loading />
-        )}
-      </div>
-      <div className="row">
-        <div className="col c-12">
-          {data ? (
-            <Paginations data={data} currpage={page} linkList={linkList} />
+      {!history ? (
+        <>
+          <div className="row">
+            <div className="col c-12 flex lg:items-center lg:justify-start flex-col lg:flex-row">
+              <Options
+                options="sort"
+                sort={sort}
+                linkStatus={linkStatus}
+                linkSort={linkSort}
+              />
+              <Options
+                options="status"
+                status={status}
+                linkStatus={linkStatus}
+                linkSort={linkSort}
+              />
+            </div>
+          </div>
+          <div className="row">
+            {data.mangas ? (
+              data.mangas.map((manga, i) => <Mangas key={i} data={manga} />)
+            ) : (
+              <Loading />
+            )}
+          </div>
+          <div className="row">
+            <div className="col c-12">
+              {data ? (
+                <Paginations data={data} currpage={page} linkList={linkList} />
+              ) : (
+                false
+              )}
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="row">
+          {data && Array.isArray(data) ? (
+            data.map((manga, i) => (
+              <Mangas
+                key={i}
+                data={manga}
+                del={del}
+                setDel={setDel}
+                history={history}
+              />
+            ))
           ) : (
-            false
+            <Loading />
           )}
         </div>
-      </div>
+      )}
     </div>
   );
 }

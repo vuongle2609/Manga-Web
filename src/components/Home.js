@@ -21,7 +21,7 @@ function HomeSlider(props) {
         breakpoint: 1024,
         settings: {
           slidesToShow: 4,
-          slidesToScroll: 2,
+          slidesToScroll: 4,
           infinite: true,
           dots: true,
         },
@@ -76,7 +76,7 @@ function HomeNewest(props) {
       </h2>
       <div className="row">
         {props.data.newUpdate.map((manga, index) => (
-          <div className="col s-6 m-2-4 c-3" key={index}>
+          <div className="col s-6 rm-4 c-3" key={index}>
             <MangaCard
               title={manga.title}
               lastChap={manga.lastChap}
@@ -85,15 +85,15 @@ function HomeNewest(props) {
             />
           </div>
         ))}
-        <div className="col s-6 m-2-4 c-3">
+        <div className="col s-6 rm-4 c-3">
           <div className="w-full mb-3">
-            <Link to={`/`}>
+            <Link to={`/list?list=true&sort=2`}>
               <div className="pt-[142.5%] bg-cover rounded-md relative shadow-sm shadow-black bg-bdark dark:bg-slights">
-                <div className="absolute top-[46%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 flex flex-col align-center justify-center">
-                  <i className="text-center bx bx-right-arrow-circle text-white text-5xl"></i>
+                <div className="absolute top-[46%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 flex flex-col align-center justify-center ">
+                  <i className="text-center bx bx-right-arrow-circle text-white text-6xl "></i>
                   <h4
-                    className="font-semibold text-white 
-                    font-md w-fit px-[10px] text-[18px] whitespace-nowrap"
+                    className="font-semibold text-white
+                    font-md w-fit px-[10px] text-2xl whitespace-nowrap mt-2"
                   >
                     Xem thêm
                   </h4>
@@ -120,27 +120,18 @@ function HomeSide(props) {
   useEffect(() => {
     const history = localStorage.getItem("manga-history");
 
-    if (history && !props.data) {
-      console.log('render history')
-      setData(JSON.parse(localStorage.getItem("manga-history")));
-    } else if (props.data) {
-      console.log('render new')
+    if (!props.history) {
       setData(props.data.newManga);
-    }
-
-    if (props.data) {
-      console.log('render new')
-      setData(props.data.newManga);
-    }
-    else if (history) {
-      console.log('render history')
+    } else if (history && props.history && history.length !== 0) {
       setData(JSON.parse(localStorage.getItem("manga-history")));
+    } else {
+      setData(false)
     }
   }, [props]);
 
   return (
     <>
-      {data ? (
+      {data && data.length !== 0 ? (
         <>
           <h2 className="mb-3 font-medium dark:text-white lg:text-xl">
             {props.data ? "Truyện mới" : "Lịch sử đọc"}
@@ -170,7 +161,7 @@ function HomeSide(props) {
             }
           })}
           <Link
-            to={"/"}
+            to={props.history ? "/list?history=true" : "/list?list=true&sort=3"}
             className="text-xl dark:text-white w-full text-center block hover:brightness-50 font-medium mb-6"
           >
             Xem Thêm...
@@ -199,13 +190,13 @@ export default function Home() {
   return (
     <div className="grid wide">
       <HomeSlider data={data} />
-      <div className="row">
-        <div className="col c-9 s-12">
+      <div className="row md:mt-8">
+        <div className="col c-9 rm-8 s-12">
           <HomeNewest data={data} />
         </div>
-        <div className="col c-3 s-12">
-          <HomeSide data={data} />
-          <HomeSide />
+        <div className="col c-3 rm-4 s-12">
+          <HomeSide data={data} history={false} />
+          <HomeSide history={true} />
         </div>
       </div>
     </div>
