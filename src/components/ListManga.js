@@ -129,33 +129,29 @@ function Mangas({ data, del, setDel, history }) {
     setDel(!del);
   };
 
-  return data ? (
-    <>
-      <div className="col s-6 c-2">
-        <div className="w-full">
-          <MangaCard
-            mangaEP={data.mangaEP}
-            cover={data.cover}
-            title={data.title}
-          />
-          {history ? (
-            <div className="flex items-center justify-center mb-3 select-none">
-              <div
-                onClick={deleteHandle}
-                className="bg-red-500 py-1 px-3 rounded-md text-white flex items-center justify-center cursor-pointer"
-              >
-                <i className="bx bx-x text-xl"></i>
-                <span>Xóa</span>
-              </div>
+  return (
+    <div className="col s-6 c-2">
+      <div className="w-full">
+        <MangaCard
+          mangaEP={data.mangaEP}
+          cover={data.cover}
+          title={data.title}
+        />
+        {history ? (
+          <div className="flex items-center justify-center mb-3 select-none">
+            <div
+              onClick={deleteHandle}
+              className="bg-red-500 py-1 px-3 rounded-md text-white flex items-center justify-center cursor-pointer"
+            >
+              <i className="bx bx-x text-xl"></i>
+              <span>Xóa</span>
             </div>
-          ) : (
-            false
-          )}
-        </div>
+          </div>
+        ) : (
+          false
+        )}
       </div>
-    </>
-  ) : (
-    false
+    </div>
   );
 }
 

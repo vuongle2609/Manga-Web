@@ -58,18 +58,18 @@ export const getSearch = async ({ keyword }) => {
 export const timeHandle = (ltime) => {
   const date1 = new Date();
   const date2 = new Date(ltime);
-  const dayB = date1.getDate() - date2.getDate();
-  const hourB = date1.getHours() - date2.getHours();
-  const minuteB = date1.getMinutes() - date2.getMinutes();
-  if (dayB === 0) {
-    if (hourB === 0) {
-      return minuteB + " phút trước";
-    } else {
-      return hourB + " giờ trước";
-    }
-  } else {
-    return dayB + " ngày trước";
-  }
+
+  const secDiff = Math.round((date1 - date2) * 0.001);
+  if (secDiff < 60) return secDiff + " giây trước";
+
+  const minDiff = Math.round(secDiff / 60);
+  if (minDiff < 60) return minDiff + " phút trước";
+
+  const hourDiff = Math.round(minDiff / 60);
+  if (hourDiff < 24) return secDiff * 60 + " giờ trước";
+
+  const dayDiff = Math.round(hourDiff / 24);
+  return dayDiff + " ngày trước";
 };
 
 export const handleURL = ({ list, genre, status, sort }) => {
