@@ -69,7 +69,10 @@ export const timeHandle = (ltime) => {
   if (hourDiff < 24) return secDiff * 60 + " giờ trước";
 
   const dayDiff = Math.round(hourDiff / 24);
-  return dayDiff + " ngày trước";
+  if (dayDiff < 365) return dayDiff + " ngày trước";
+
+  const yearDiff = Math.round(dayDiff / 365)
+  return yearDiff + " Năm trước";
 };
 
 export const handleURL = ({ list, genre, status, sort }) => {
