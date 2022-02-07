@@ -6,7 +6,7 @@ const store = create(set => ({
     isSearch: false,
     canvas: false,
     setDark: (theme) => {
-        set(state => ({
+        set(() => ({
             isDark: theme,
         }))
     },

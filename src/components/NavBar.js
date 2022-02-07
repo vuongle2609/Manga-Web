@@ -6,7 +6,7 @@ export default function Navbar() {
   return (
     <div
       className="flex absolute top-0 left-0 bg-white
-    dark:bg-zinc-800 h-[56px] items-center w-full z-10"
+    dark:bg-bdark h-[56px] items-center w-full z-10"
     >
       <div className="grid wide">
         <div className="row justify-between items-center">

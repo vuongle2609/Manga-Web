@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { getDetail } from "../getData";
+import { getDetail, handleGenreEP } from "../getData";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
@@ -73,12 +73,13 @@ function Body({ data, mangaEp }) {
               <div className="w-full flex flex-wrap">
                 {data.genres
                   ? data.genres.map((genre, index) => (
-                      <span
+                      <Link
                         key={index}
-                        className="text-white bg-sdarks py-[2px] px-[8px] rounded-md mx-[2px] font-bold select-none mb-2"
+                        to={`/list?genre=${handleGenreEP(genre)}`}
+                        className="text-white bg-sdarks py-[2px] px-[8px] rounded-md mx-[2px] font-bold select-none mb-2 hover:text-primary"
                       >
                         {genre}
-                      </span>
+                      </Link>
                     ))
                   : false}
               </div>

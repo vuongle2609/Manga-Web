@@ -9,7 +9,7 @@ export default function MangaCard(props) {
         <Link to={`/manga?name=${props.mangaEP}`}>
           <div
             style={{ backgroundImage: `url('${props.cover}')` }}
-            className={"pt-[142.5%] bg-cover rounded-sm relative shadow-sm shadow-black" + (props.slider ? '' : 'scale-100 hover:scale-105 duration-150')}
+            className={"pt-[142.5%] bg-cover rounded-lg overflow-hidden relative shadow-sm shadow-black" + (props.slider ? '' : 'scale-100 hover:scale-105 duration-150')}
           >
             <h4
               className="font-semibold line-clamp-2 text-white 
