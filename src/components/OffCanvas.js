@@ -1,29 +1,56 @@
 import store from "../state";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-function CanvasSections(props) {
-  const { setCanvas } = store();
-  return props.list ? (
+function CanvasSelector(props) {
+  const location = useLocation();
+  const match = location.pathname.slice(1) === props.to;
+  return (
     <li
       className={
-        "flex items-center justify-start pt-5 px-4  dark:text-white hover:cursor-pointer  "
+        "flex items-center justify-start py-2 rounded-lg px-4 dark:text-textDarkGray hover:cursor-pointer" +
+        (match ? " bg-redActive" : "")
       }
       onClick={props.set}
     >
-      <i className={`bx bx-${props.icon}  mr-3 text-2xl`}></i>
-      <span className="select-none  text-base font-normal">{props.name}</span>
-    </li>
-  ) : (
-    <Link to={props.path} onClick={setCanvas}>
-      <li
+      <i
         className={
-          "flex items-center justify-start pt-5 px-4  dark:text-white  "
+          `bx bx-${props.icon}  mr-3 text-2xl` + (match ? " text-primary " : "")
+        }
+      ></i>
+      <span
+        className={
+          `select-none text-base font-normal` + (match ? " text-primary " : "")
         }
       >
-        <i className={`bx bx-${props.icon} mr-3 text-2xl`}></i>
-        <span className="select-none text-base font-normal">{props.name}</span>
-      </li>
-    </Link>
+        {props.name}
+      </span>
+    </li>
+  );
+}
+
+function CanvasSections(props) {
+  return (
+    <li
+      className={
+        "flex items-center justify-start py-2 rounded-lg px-4 dark:text-textDarkGray " +
+        (props.match ? " bg-redActive" : "")
+      }
+    >
+      <i
+        className={
+          `bx bx-${props.icon} mr-3 text-2xl` +
+          (props.match ? " text-primary " : "")
+        }
+      ></i>
+      <span
+        className={
+          `select-none text-base font-normal` +
+          (props.match ? " text-primary " : "")
+        }
+      >
+        {props.name}
+      </span>
+    </li>
   );
 }
 
@@ -60,6 +87,18 @@ function FooterLink(props) {
   );
 }
 
+function CustomLink({ to, name, icon }) {
+  const location = useLocation();
+  const match = location.pathname === to;
+  const { setCanvas } = store();
+
+  return (
+    <Link to={to} onClick={setCanvas}>
+      <CanvasSections name={name} icon={icon} match={match} />
+    </Link>
+  );
+}
+
 export default function OffCanvas() {
   const { canvas, setCanvas, setGenres } = store();
   return (
@@ -83,25 +122,24 @@ export default function OffCanvas() {
             </h2>
           </div>
           <UserSections userImg="https://media.discordapp.net/attachments/893838005830303796/935046752313172048/FB_IMG_1642998761563.jpg?width=956&height=676" />
-          <h3 className="mt-6 text-xl font-medium dark:text-white">Khám phá</h3>
-          <CanvasSections name="Trang chủ" icon="home" path="/home" />
-          <CanvasSections
+          <h3 className="mt-6 mb-2 text-xl font-medium dark:text-white">
+            Khám phá
+          </h3>
+          <CustomLink to="/home" name="Trang chủ" icon="home" />
+          <CanvasSelector
             name="Thể loại"
             icon="menu"
             path=""
+            to="genres"
             list="true"
             set={setGenres}
           />
-          <h3 className="mt-6 text-xl font-medium dark:text-white">
+          <h3 className="mt-6 mb-2 text-xl font-medium dark:text-white">
             Người dùng
           </h3>
+          <CustomLink to="/favourite" name="Yêu thích" icon="heart" />
+          <CustomLink to="/history" name="Lịch sử" icon="history" />
           <CanvasSections name="Thông báo" icon="bell" path="" />
-          <CanvasSections name="Yêu thích" icon="heart" path="/list" />
-          <CanvasSections
-            name="Lịch sử"
-            icon="history"
-            path="/list?history=true"
-          />
           <CanvasSections name="Cài đặt" icon="cog" path="" />
           <div className="mt-auto flex items-center justify-evenly ">
             <FooterLink

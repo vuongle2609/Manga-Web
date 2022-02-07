@@ -75,29 +75,26 @@ export const timeHandle = (ltime) => {
   return yearDiff + " Năm trước";
 };
 
-export const handleURL = ({ list, genre, status, sort }) => {
+export const handleURL = ({ genre, status, sort }) => {
   return (
-    "/list?" +
-    (list ? "list=true" : "") +
+    "/genres?" +
     (genre ? `genre=${genre}` : "") +
     (status ? `&status=${status}` : "") +
     (sort ? `&sort=${sort}` : "")
   );
 };
 
-export const getUrlStatus = ({ list, genre, status }) => {
+export const getUrlStatus = ({ genre, status }) => {
   return (
-    "/list?" +
-    (list ? "list=true" : "") +
+    "/genres?" +
     (genre ? `genre=${genre}` : "") +
     (status ? `&status=${status}` : "")
   );
 };
 
-export const getUrlSort = ({ list, genre, sort }) => {
+export const getUrlSort = ({ genre, sort }) => {
   return (
-    "/list?" +
-    (list ? "list=true" : "") +
+    "/genres?" +
     (genre ? `genre=${genre}` : "") +
     (sort ? `&sort=${sort}` : "")
   );

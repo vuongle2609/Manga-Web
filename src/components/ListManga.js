@@ -113,7 +113,7 @@ function Options({ options, sort, status, linkStatus, linkSort }) {
   );
 }
 
-function Mangas({ data, del, setDel, history }) {
+function Mangas({ data, del, setDel, canDel }) {
   const deleteHandle = () => {
     const localData = JSON.parse(localStorage.getItem("manga-history"));
 
@@ -137,7 +137,7 @@ function Mangas({ data, del, setDel, history }) {
           cover={data.cover}
           title={data.title}
         />
-        {history ? (
+        {canDel ? (
           <div className="flex items-center justify-center mb-3 select-none">
             <div
               onClick={deleteHandle}
@@ -260,15 +260,13 @@ export default function ListManga() {
   let location = useLocation();
   let query = new URLSearchParams(location.search);
 
-  const list = query.get("list");
   const genre = query.get("genre");
   const status = query.get("status");
   const sort = query.get("sort") ? query.get("sort") : 0;
   const page = query.get("page") ? query.get("page") : 1;
-  let history = query.get("history");
+  let path = location.pathname.slice(1);
 
   const filter = {
-    list,
     genre,
     status,
     sort,
@@ -278,16 +276,27 @@ export default function ListManga() {
   let linkList = handleURL(filter);
   let linkStatus = getUrlStatus(filter);
   let linkSort = getUrlSort(filter);
+
+  const canDel = path === 'history' || path === 'favourite'
+
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
     setData(false);
-    if (!history) {
+    if (path === "genres") {
       linkList = handleURL(filter);
       getList(filter).then((data) => setData(data));
-    } else {
+    } else if (path === "history") {
+      const historyData = localStorage.getItem("manga-history");
+
+      if (historyData) {
+        setData(JSON.parse(historyData));
+      } else {
+        setData(false);
+      }
+    } else if (path === "favourite") {
       const historyData = localStorage.getItem("manga-history");
 
       if (historyData) {
@@ -298,60 +307,58 @@ export default function ListManga() {
     }
   }, [location, del]);
 
-  return (
-    <div className="grid wide">
-      {!history ? (
-        <>
-          <div className="row">
-            <div className="col c-12 flex lg:items-center lg:justify-start flex-col lg:flex-row">
-              <Options
-                options="sort"
-                sort={sort}
-                linkStatus={linkStatus}
-                linkSort={linkSort}
-              />
-              <Options
-                options="status"
-                status={status}
-                linkStatus={linkStatus}
-                linkSort={linkSort}
-              />
-            </div>
-          </div>
-          <div className="row">
-            {data.mangas ? (
-              data.mangas.map((manga, i) => <Mangas key={i} data={manga} />)
-            ) : (
-              <Loading />
-            )}
-          </div>
-          <div className="row">
-            <div className="col c-12">
-              {data ? (
-                <Paginations data={data} currpage={page} linkList={linkList} />
-              ) : (
-                false
-              )}
-            </div>
-          </div>
-        </>
-      ) : (
+  let render;
+
+  if (path === "genres") {
+    render = (
+      <>
         <div className="row">
-          {data && Array.isArray(data) ? (
-            data.map((manga, i) => (
-              <Mangas
-                key={i}
-                data={manga}
-                del={del}
-                setDel={setDel}
-                history={history}
-              />
-            ))
+          <div className="col c-12 flex lg:items-center lg:justify-start flex-col lg:flex-row">
+            <Options
+              options="sort"
+              sort={sort}
+              linkStatus={linkStatus}
+              linkSort={linkSort}
+            />
+            <Options
+              options="status"
+              status={status}
+              linkStatus={linkStatus}
+              linkSort={linkSort}
+            />
+          </div>
+        </div>
+        <div className="row">
+          {data.mangas ? (
+            data.mangas.map((manga, i) => <Mangas key={i} data={manga} />)
           ) : (
             <Loading />
           )}
         </div>
-      )}
-    </div>
-  );
+        <div className="row">
+          <div className="col c-12">
+            {data ? (
+              <Paginations data={data} currpage={page} linkList={linkList} />
+            ) : (
+              false
+            )}
+          </div>
+        </div>
+      </>
+    );
+  } else {
+    render = (
+      <div className="row">
+        {data && Array.isArray(data) ? (
+          data.map((manga, i) => (
+            <Mangas key={i} data={manga} del={del} setDel={setDel} canDel={canDel}/>
+          ))
+        ) : (
+          <Loading />
+        )}
+      </div>
+    );
+  }
+
+  return <div className="grid wide">{render}</div>;
 }

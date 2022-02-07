@@ -301,7 +301,7 @@ function ModalGenres() {
         {genresList.map((genre, index) => (
           <Link
             key={index}
-            to={`/list?genre=${genre.EP}`}
+            to={`/genres?genre=${genre.EP}`}
             onClick={() => {
               setGenres();
               setCanvas();

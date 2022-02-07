@@ -16,7 +16,8 @@ module.exports = {
         primary: "#ff6740",
         slights: "#f2f3f5",
         textGray: "#212b36",
-        textDarkGray: "#919eab"
+        textDarkGray: "#919eab",
+        redActive : "rgba(255, 48, 48, 0.16)"
       },
     },
   },

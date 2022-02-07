@@ -13,7 +13,9 @@ export default function MainApp() {
         <Route path="*" element={<Error />} />
         <Route path="/" index element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/list" element={<ListManga />} />
+        <Route path="/history" element={<ListManga />} />
+        <Route path="/genres" element={<ListManga />} />
+        <Route path="/favourite" element={<ListManga />} />
         <Route path="/manga" element={<MangaDetailPage />} />
         <Route path="/read" element={<MangaReadPage />} />
       </Routes>
