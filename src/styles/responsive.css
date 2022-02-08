@@ -20,6 +20,10 @@
     margin-right: -8px;
 }
 
+.row.nowrap {
+    flex-wrap: nowrap;
+}
+
 .row.no-gutters {
     margin-left: 0;
     margin-right: 0;

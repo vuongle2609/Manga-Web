@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import store from "../state";
 import { getSearch } from "../getData";
-import MangaCard from "./MangaCard";
+import {MangaCardAIO} from "./MangaCard";
 
 function ModalSearch({ setSearch }) {
   const [keyword, setKeyword] = useState("");
@@ -47,7 +47,7 @@ function ModalSearch({ setSearch }) {
           <div className="row w-full flex-1 overflow-scroll scrollbar-cus overflow-x-hidden overflow-y-hidden lg:overflow-y-auto">
             {data.mangas.map((data, index) => (
               <div className="col s-6 c-2-4" key={index} onClick={setSearch}>
-                <MangaCard
+                <MangaCardAIO
                   mangaEP={data.mangaEP}
                   cover={data.cover}
                   title={data.title}

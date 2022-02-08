@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   mode: 'jit',
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   darkMode: "class",
@@ -24,4 +24,6 @@ module.exports = {
   plugins: [
     require('@tailwindcss/line-clamp'),
   ],
-};
+}
+
+module.exports = config;

@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import { useState, useEffect, useLayoutEffect } from "react";
 import { getList } from "../getData";
-import MangaCard from "./MangaCard";
+import {MangaCardAIO} from "./MangaCard";
 import Loading from "./Loading";
 import { handleURL, getUrlStatus, getUrlSort } from "../getData";
 
@@ -84,7 +84,7 @@ function Options({ options, sort, status, linkStatus, linkSort }) {
 
   return (
     <div
-      className="min-w-[100px] w-fit bg-slights dark:bg-sdarks mr-3 flex items-center justify-center
+      className="min-w-[100px] w-fit bg-white dark:bg-sdarks mr-3 flex items-center justify-center
       py-2 px-3 rounded-md hover:cursor-pointer dark:text-white relative mb-2 lg:mb-6
     "
       onClick={handleCategory}
@@ -102,7 +102,7 @@ function Options({ options, sort, status, linkStatus, linkSort }) {
 
       <ul
         className={
-          "absolute h-fit w-full bg-slights dark:bg-sdarks rounded-md top-[110%] left-0 py-1 px-2 duration-150 origin-top-right" +
+          "absolute h-fit w-full bg-white dark:bg-sdarks rounded-md top-[110%] left-0 py-1 px-2 duration-150 origin-top-right" +
           (options === "sort" ? " z-30" : " z-10") +
           (category ? " scale-100" : " scale-0")
         }
@@ -132,7 +132,7 @@ function Mangas({ data, del, setDel, canDel }) {
   return (
     <div className="col s-6 c-2">
       <div className="w-full">
-        <MangaCard
+        <MangaCardAIO
           mangaEP={data.mangaEP}
           cover={data.cover}
           title={data.title}
@@ -285,7 +285,7 @@ export default function ListManga() {
 
   useEffect(() => {
     setData(false);
-    if (path === "genres") {
+    if (path === "genres" || path === "list") {
       linkList = handleURL(filter);
       getList(filter).then((data) => setData(data));
     } else if (path === "history") {
@@ -309,7 +309,7 @@ export default function ListManga() {
 
   let render;
 
-  if (path === "genres") {
+  if (path === "genres" || path === "list") {
     render = (
       <>
         <div className="row">

@@ -18,16 +18,10 @@ export const getPages = async ({ mangaEP, chapterEP }) => {
   return data.data;
 };
 
-export const getList = async ({ list, genre, status, sort, page }) => {
+export const getList = async ({ genre, status, sort, page }) => {
   let fetchLink;
 
-  if (list) {
-    fetchLink =
-      "https://mangalh-api.vercel.app/list?list=true&" +
-      (sort ? "sort=" + sort + "&" : "") +
-      (status ? "status=" + status + "&" : "") +
-      (page ? "page=" + page : "");
-  } else {
+  if (genre) {
     fetchLink =
       "https://mangalh-api.vercel.app/list?genre=" +
       genre +
@@ -35,7 +29,13 @@ export const getList = async ({ list, genre, status, sort, page }) => {
       (sort ? "sort=" + sort + "&" : "") +
       (status ? "status=" + status + "&" : "") +
       (page ? "page=" + page : "");
-  }
+  } else {
+    fetchLink =
+    "https://mangalh-api.vercel.app/list?list=true&" +
+    (sort ? "sort=" + sort + "&" : "") +
+    (status ? "status=" + status + "&" : "") +
+    (page ? "page=" + page : "");
+  } 
 
   const res = await fetch(fetchLink);
   const data = await res.json();

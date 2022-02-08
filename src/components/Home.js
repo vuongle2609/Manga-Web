@@ -1,9 +1,8 @@
 import Slider from "react-slick";
 import { useEffect, useState } from "react";
 import { getPopular } from "../getData";
-import MangaCard from "./MangaCard";
+import {MangaCardAIO, MangaCardDetail} from "./MangaCard";
 import Loading from "./Loading";
-import { timeHandle } from "../getData";
 import { Link } from "react-router-dom";
 
 function HomeSlider(props) {
@@ -46,12 +45,12 @@ function HomeSlider(props) {
   };
   return props.data ? (
     <div className="row">
-      <div className="w-[100%] mb-2">
+      <div className="col c-12 mb-2">
         <h2 className="mb-3 font-medium dark:text-white lg:text-xl">Nổi bật</h2>
         <Slider {...settings}>
           {props.data.daily.map((manga, index) => (
             <div className="w-full px-1" key={index}>
-              <MangaCard
+              <MangaCardAIO
                 title={manga.title}
                 lastChap={manga.lastChap}
                 cover={manga.cover}
@@ -71,42 +70,26 @@ function HomeSlider(props) {
 function HomeNewest(props) {
   return props.data ? (
     <>
-      <h2 className="mb-3 font-medium dark:text-white lg:text-xl">
-        Mới cập nhật
-      </h2>
+      <div className="mb-3 flex justify-between">
+        <h2 className=" font-medium dark:text-white text-xl">Mới cập nhật</h2>
+        <Link to="/list?sort=2">
+          <i class="bx bx-right-arrow-alt font-medium dark:text-white text-3xl"></i>
+        </Link>
+      </div>
       <div className="row">
         {props.data.newUpdate.map((manga, index) => (
-          <div className="col s-6 rm-4 c-3" key={index}>
-            <MangaCard
-              title={manga.title}
-              lastChap={manga.lastChap}
-              cover={manga.cover}
-              mangaEP={manga.mangaEP}
-            />
+          <div
+            className={
+              "col " +
+              (index > 5 ? " s-0" : " s-12") +
+              (index > 11 ? " rm-0" : " rm-6") +
+              (index > 11 ? " c-0" : " c-4")
+            }
+            key={index}
+          >
+            <MangaCardDetail manga={manga} />
           </div>
         ))}
-        <div className="col s-6 rm-4 c-3">
-          <div className="w-full mb-3">
-            <Link to={`/list?list=true&sort=2`}>
-              <div className="pt-[142.5%] bg-cover rounded-md relative shadow-sm shadow-black bg-bdark dark:bg-slights">
-                <div className="absolute top-[46%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 flex flex-col align-center justify-center ">
-                  <i className="text-center bx bx-right-arrow-circle text-white text-6xl "></i>
-                  <h4
-                    className="font-semibold text-white
-                    font-md w-fit px-[10px] text-2xl whitespace-nowrap mt-2"
-                  >
-                    Xem thêm
-                  </h4>
-                </div>
-                <span className="absolute w-full h-full bottom-0 left-0 bg-slate-900 opacity-50"></span>
-                <span
-                  className="absolute w-[86%] h-[86%] top-[50%] left-[50%] translate-x-[-50%]
-                 translate-y-[-50%] border-white border-2 rounded-md"
-                ></span>
-              </div>
-            </Link>
-          </div>
-        </div>
       </div>
     </>
   ) : (
@@ -114,64 +97,30 @@ function HomeNewest(props) {
   );
 }
 
-function HomeSide(props) {
-  const [data, setData] = useState(false);
-
-  useEffect(() => {
-    const history = localStorage.getItem("manga-history");
-
-    if (!props.history) {
-      setData(props.data.newManga);
-    } else if (history && props.history && history.length !== 0) {
-      setData(JSON.parse(localStorage.getItem("manga-history")));
-    } else {
-      setData(false)
-    }
-  }, [props]);
-
-  return (
+function HomeNewManga(props) {
+  return props.data ? (
     <>
-      {data && data.length !== 0 ? (
-        <>
-          <h2 className="mb-3 font-medium dark:text-white lg:text-xl">
-            {props.data ? "Truyện mới" : "Lịch sử đọc"}
-          </h2>
-          {data.map((item, index) => {
-            if (index < 6) {
-              return (
-                <Link
-                  to={`/manga?name=${item.mangaEP}`}
-                  className="flex w-full mb-3 scale-100 hover:scale-105 duration-150 dark:text-white lg:ml-3"
-                  key={index}
-                >
-                  <div
-                    style={{ backgroundImage: `url("${item.cover}")` }}
-                    className="lg:w-[30%] lg:pt-[40%] w-[20%] pt-[30%] bg-cover rounded-sm"
-                  ></div>
-                  <div className="flex-1 ml-3">
-                    <h3 className="text-lg leading-6 font-medium line-clamp-3">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs select-none">
-                      {timeHandle(item.time ? item.time : item.lastUpdate)}
-                    </p>
-                  </div>
-                </Link>
-              );
-            }
-          })}
-          <Link
-            to={props.history ? "/list?history=true" : "/list?list=true&sort=3"}
-            className="text-xl dark:text-white w-full text-center block hover:brightness-50 font-medium mb-6"
-          >
-            Xem Thêm...
-          </Link>
-        </>
-      ) : (
-        false
-      )}
+      <div className="mb-3 flex justify-between">
+        <h2 className=" font-medium dark:text-white text-xl">Truyện mới</h2>
+        <Link to="/list?sort=3">
+          <i class="bx bx-right-arrow-alt font-medium dark:text-white text-3xl"></i>
+        </Link>
+      </div>
+      <div className="row nowrap overflow-hidden">
+        {props.data.newManga.map((manga, index) => (
+          <div className="col c-2 rm-2-4 s-4" key={index}>
+            <MangaCardAIO 
+          title={manga.title}
+          lastChap={manga.lastChap}
+          cover={manga.cover}
+          slider={true}
+          mangaEP={manga.mangaEP}
+          />
+          </div>
+        ))}
+      </div>
     </>
-  );
+  ) : false;
 }
 
 export default function Home() {
@@ -191,12 +140,11 @@ export default function Home() {
     <div className="grid wide">
       <HomeSlider data={data} />
       <div className="row md:mt-8">
-        <div className="col c-9 rm-8 s-12">
+        <div className="col c-12">
           <HomeNewest data={data} />
         </div>
-        <div className="col c-3 rm-4 s-12">
-          <HomeSide data={data} history={false} />
-          <HomeSide history={true} />
+        <div className="col c-12">
+          <HomeNewManga data={data}/>
         </div>
       </div>
     </div>
