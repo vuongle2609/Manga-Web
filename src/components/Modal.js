@@ -39,10 +39,10 @@ function ModalSearch({ setSearch }) {
         <>
         <div className="w-full mt-5 dark:text-white flex justify-between items-center">
             <h2 className="text-xl mb-2">{data.mangas.length > 0 ? "Kết quả" : "Không tìm thấy"}</h2>
-            <i
+            {/* <i
               className="bx bx-right-arrow-alt text-3xl"
               onClick={setSearch}
-            ></i>
+            ></i> */}
           </div> 
           <div className="row w-full flex-1 overflow-scroll scrollbar-cus overflow-x-hidden overflow-y-hidden lg:overflow-y-auto">
             {data.mangas.map((data, index) => (

@@ -70,7 +70,7 @@ function Body({ data, mangaEp, mangaObj }) {
         <ActionZone data={data} mangaEp={mangaEp} mangaObj={mangaObj} />
       </div>
       <div className="col c-12">
-        <div className="w-full h-fit bg-white dark:bg-bdark rounded-sm px-1 lg:px-3 shadow-md">
+        <div className="w-full h-fit bg-white dark:bg-bdark rounded-md px-3 lg:px-3 shadow-md">
           <div className="row py-3 px-2">
             <div className="col c-12">
               <div className="w-full flex flex-wrap">
@@ -199,8 +199,8 @@ function ActionBtn({ mangaObj }) {
   return (
     <div
       className={
-        " py-2 rounded-md mx-[2px] mt-2 lg:mt-0 px-5 font-bold select-none text-center w-fulll transition-all duration-150  flex items-center justify-center whitespace-nowrap cursor-pointer" +
-        (isFav ? " bg-[#ff7675]" : " bg-slights")
+        " py-2 rounded-md mx-[2px] mt-2 lg:mt-0 px-5 font-bold  select-none text-center w-fulll transition-all duration-150  flex items-center justify-center whitespace-nowrap cursor-pointer" +
+        (isFav ? " bg-[#ff7675] text-white" : " bg-slights dark:bg-sdarks dark:text-white")
       }
       onClick={handleFavourite}
     >

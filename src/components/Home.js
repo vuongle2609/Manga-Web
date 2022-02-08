@@ -1,7 +1,7 @@
 import Slider from "react-slick";
 import { useEffect, useState } from "react";
 import { getPopular } from "../getData";
-import {MangaCardAIO, MangaCardDetail} from "./MangaCard";
+import { MangaCardAIO, MangaCardDetail } from "./MangaCard";
 import Loading from "./Loading";
 import { Link } from "react-router-dom";
 
@@ -109,32 +109,29 @@ function HomeNewManga(props) {
       <div className="row nowrap overflow-hidden">
         {props.data.newManga.map((manga, index) => (
           <div className="col c-2 rm-2-4 s-4" key={index}>
-            <MangaCardAIO 
-          title={manga.title}
-          lastChap={manga.lastChap}
-          cover={manga.cover}
-          slider={true}
-          mangaEP={manga.mangaEP}
-          />
+            <MangaCardAIO
+              title={manga.title}
+              lastChap={manga.lastChap}
+              cover={manga.cover}
+              slider={true}
+              mangaEP={manga.mangaEP}
+            />
           </div>
         ))}
       </div>
     </>
-  ) : false;
+  ) : (
+    false
+  );
 }
 
 export default function Home() {
   const [data, setData] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem("homeData")) {
-      getPopular().then((data) => {
-        localStorage.setItem("homeData", JSON.stringify(data));
-        setData(data);
-      });
-    } else {
-      setData(JSON.parse(localStorage.getItem("homeData")));
-    }
+    getPopular().then((data) => {
+      setData(data);
+    });
   }, []);
   return (
     <div className="grid wide">
@@ -144,7 +141,7 @@ export default function Home() {
           <HomeNewest data={data} />
         </div>
         <div className="col c-12">
-          <HomeNewManga data={data}/>
+          <HomeNewManga data={data} />
         </div>
       </div>
     </div>
