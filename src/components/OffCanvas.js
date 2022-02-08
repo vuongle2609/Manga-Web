@@ -139,8 +139,8 @@ export default function OffCanvas() {
           </h3>
           <CustomLink to="/favourite" name="Yêu thích" icon="heart" />
           <CustomLink to="/history" name="Lịch sử" icon="history" />
-          <CanvasSections name="Thông báo" icon="bell" path="" />
-          <CanvasSections name="Cài đặt" icon="cog" path="" />
+          {/* <CanvasSections name="Thông báo" icon="bell" path="" /> */}
+          {/* <CanvasSections name="Cài đặt" icon="cog" path="" /> */}
           <div className="mt-auto flex items-center justify-evenly ">
             <FooterLink
               icon="github"

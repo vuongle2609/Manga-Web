@@ -63,9 +63,12 @@ function Header({ data }) {
   );
 }
 
-function Body({ data, mangaEp }) {
+function Body({ data, mangaEp, mangaObj }) {
   return (
-    <div className="row mt-3">
+    <div className="row no-gutters">
+      <div className="col c-12 mb-3">
+        <ActionZone data={data} mangaEp={mangaEp} mangaObj={mangaObj} />
+      </div>
       <div className="col c-12">
         <div className="w-full h-fit bg-white dark:bg-bdark rounded-sm px-1 lg:px-3 shadow-md">
           <div className="row py-3 px-2">
@@ -155,6 +158,99 @@ function Body({ data, mangaEp }) {
   );
 }
 
+function ActionBtn({ mangaObj }) {
+  const [isFav, setIsFav] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("manga-favourite")) {
+      const favArr = JSON.parse(localStorage.getItem("manga-favourite"));
+      if (favArr) {
+        favArr.filter((manga) => {
+          if (mangaObj.title === manga.title) {
+            setIsFav(true);
+          }
+        });
+      }
+    }
+  }, [isFav]);
+
+  const handleFavourite = () => {
+    if (!localStorage.getItem("manga-favourite")) {
+      const a = [mangaObj];
+      localStorage.setItem("manga-favourite", JSON.stringify(a));
+    } else {
+      const b = JSON.parse(localStorage.getItem("manga-favourite"));
+      if (isFav) {
+        const c = b.filter((manga) => {
+          if (mangaObj.title !== manga.title) {
+            return manga;
+          }
+        });
+        localStorage.setItem("manga-favourite", JSON.stringify(c));
+        setIsFav(false);
+      } else {
+        b.unshift(mangaObj);
+        localStorage.setItem("manga-favourite", JSON.stringify(b));
+        setIsFav(true);
+      }
+    }
+  };
+
+  return (
+    <div
+      className={
+        " py-2 rounded-md mx-[2px] mt-2 lg:mt-0 px-5 font-bold select-none text-center w-fulll transition-all duration-150  flex items-center justify-center whitespace-nowrap cursor-pointer" +
+        (isFav ? " bg-[#ff7675]" : " bg-slights")
+      }
+      onClick={handleFavourite}
+    >
+      {isFav ? "Xóa khỏi bộ sưu tập" : "Thêm vào bộ sưu tập"}
+    </div>
+  );
+}
+
+function ActionLink({ name, path }) {
+  return (
+    <Link
+      to={path}
+      className={
+        "py-2 px-5 rounded-md mx-[2px] font-bold select-none text-center flex-1 bg-primary text-white flex items-center justify-center whitespace-nowrap"
+      }
+    >
+      {name}
+    </Link>
+  );
+}
+
+function ActionZone({ data, mangaEp, mangaObj }) {
+  let firstChap;
+  let lastChap;
+
+  const chapArr = data.chaps;
+  const chapLength = data.chaps.length;
+
+  firstChap = chapArr[0].chapEP;
+  lastChap = chapArr[chapLength - 1].chapEP;
+
+  return (
+    <div className="px-2 pt-4 row">
+      <div className="col c-12 flex flex-col lg:flex-row">
+        <div className="flex">
+          <ActionLink
+            name="Đọc từ đầu"
+            path={`/read?name=${mangaEp}&chap=${firstChap}`}
+          />
+          <ActionLink
+            name="Chap mới nhất"
+            path={`/read?name=${mangaEp}&chap=${lastChap}`}
+          />
+        </div>
+        <ActionBtn mangaObj={mangaObj} />
+      </div>
+    </div>
+  );
+}
+
 export default function MangaDetailPage() {
   let location = useLocation();
   let query = new URLSearchParams(location.search);
@@ -209,7 +305,7 @@ export default function MangaDetailPage() {
       <div className="h-screen w-full blur absolute top-0 left-0 z-[2] bg-gradient-to-t from-transparent to-modalw dark:to-modal"></div>
       <div className="grid wide z-10 relative">
         <Header data={data} />
-        <Body data={data} mangaEp={mangaEP} />
+        <Body data={data} mangaEp={mangaEP} mangaObj={mangaObj} />
       </div>
     </div>
   ) : (

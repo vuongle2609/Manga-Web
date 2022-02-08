@@ -1,9 +1,10 @@
 import { useLocation, Link } from "react-router-dom";
 import { useState, useEffect, useLayoutEffect } from "react";
 import { getList } from "../getData";
-import {MangaCardAIO} from "./MangaCard";
+import { MangaCardAIO } from "./MangaCard";
 import Loading from "./Loading";
 import { handleURL, getUrlStatus, getUrlSort } from "../getData";
+import sad from "../img/sad.png";
 
 function Options({ options, sort, status, linkStatus, linkSort }) {
   const [category, setCategory] = useState(false);
@@ -113,9 +114,14 @@ function Options({ options, sort, status, linkStatus, linkSort }) {
   );
 }
 
-function Mangas({ data, del, setDel, canDel }) {
+function Mangas({ data, del, setDel, canDel, path }) {
   const deleteHandle = () => {
-    const localData = JSON.parse(localStorage.getItem("manga-history"));
+    let localData;
+    if (path === "history") {
+      localData = JSON.parse(localStorage.getItem("manga-history"));
+    } else {
+      localData = JSON.parse(localStorage.getItem("manga-favourite"));
+    }
 
     const newLocalData = [];
 
@@ -125,12 +131,16 @@ function Mangas({ data, del, setDel, canDel }) {
       }
     });
 
-    localStorage.setItem("manga-history", JSON.stringify(newLocalData));
+    if (path === "history") {
+      localStorage.setItem("manga-history", JSON.stringify(newLocalData));
+    } else {
+      localStorage.setItem("manga-favourite", JSON.stringify(newLocalData));
+    }
     setDel(!del);
   };
 
   return (
-    <div className="col s-6 c-2">
+    <div className="col s-6 rm-3 c-2">
       <div className="w-full">
         <MangaCardAIO
           mangaEP={data.mangaEP}
@@ -253,6 +263,17 @@ function Paginations({ data, currpage, linkList }) {
   );
 }
 
+function NotthingHere() {
+  return (
+    <div className="w-full flex flex-col items-center mt-32">
+      <img src={sad} alt="nothing" className="w-[15rem] h-auto" />
+      <span className="text-xl dark:text-white font-medium mt-5">
+        Chưa có gì ở đây cả
+      </span>
+    </div>
+  );
+}
+
 export default function ListManga() {
   const [data, setData] = useState(false);
   const [del, setDel] = useState(false);
@@ -277,7 +298,7 @@ export default function ListManga() {
   let linkStatus = getUrlStatus(filter);
   let linkSort = getUrlSort(filter);
 
-  const canDel = path === 'history' || path === 'favourite'
+  const canDel = path === "history" || path === "favourite";
 
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
@@ -297,10 +318,10 @@ export default function ListManga() {
         setData(false);
       }
     } else if (path === "favourite") {
-      const historyData = localStorage.getItem("manga-history");
+      const favoritesData = localStorage.getItem("manga-favourite");
 
-      if (historyData) {
-        setData(JSON.parse(historyData));
+      if (favoritesData) {
+        setData(JSON.parse(favoritesData));
       } else {
         setData(false);
       }
@@ -349,12 +370,19 @@ export default function ListManga() {
   } else {
     render = (
       <div className="row">
-        {data && Array.isArray(data) ? (
+        {data && Array.isArray(data) && data.length > 0 ? (
           data.map((manga, i) => (
-            <Mangas key={i} data={manga} del={del} setDel={setDel} canDel={canDel}/>
+            <Mangas
+              key={i}
+              data={manga}
+              del={del}
+              setDel={setDel}
+              canDel={canDel}
+              path={path}
+            />
           ))
         ) : (
-          <Loading />
+          <NotthingHere />
         )}
       </div>
     );

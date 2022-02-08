@@ -29,13 +29,13 @@ export default function Navbar() {
           <div className="flex items-center">
             <div
               type="text"
-              className="h-10 w-[220px] rounded-md bg-gray-200 dark:bg-gray-600 pl-3
+              className="h-10 w-[300px] rounded-md bg-gray-200 dark:bg-gray-600 pl-3
             sm:flex justify-start items-center relative cursor-text hidden
             "
               onClick={setSearch}
             >
               <i className="bx bx-search text-2xl dark:text-white absolute top-1/2 -translate-y-1/2"></i>
-              <p className="dark:text-white ml-7 select-none">Search...</p>
+              <p className="dark:text-white ml-7 select-none">Tìm kiếm...</p>
             </div>
             <i
               className="bx bx-search text-2xl dark:text-white md:hidden"
