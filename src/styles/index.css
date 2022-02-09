@@ -46,6 +46,7 @@
   .opacity-ani {
     animation: opa 0.2s linear;
   }
+  
 }
 @tailwind utilities;
 @import "https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css";

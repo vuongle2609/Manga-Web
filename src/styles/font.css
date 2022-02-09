@@ -2,3 +2,19 @@
 html {
   font-family: "Quicksand", sans-serif;
 }
+
+.slick-dots li button {
+  background: #9c9cb7 !important;
+  text-indent: -9999px;
+  width: 8px !important;
+  height: 8px !important;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.slick-dots .slick-active button {
+  background: #ff6740 !important;
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 50%;
+}
