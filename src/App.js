@@ -3,10 +3,13 @@ import store from "./state";
 import Modal from "./components/Modal";
 import MainApp from "./components/MainApp";
 import OffCanvas from "./components/OffCanvas";
-import LoadingModel from "./components/LoadingModel"
+import LoadingModel from "./components/LoadingModel";
 import { useLayoutEffect } from "react";
+import { getUser } from "./getData";
+import useStore from "./state";
 
 export default function App() {
+  const { setUserData } = useStore();
   useLayoutEffect(() => {
     const existingPreference = localStorage.getItem("theme");
     if (existingPreference) {
@@ -15,6 +18,18 @@ export default function App() {
       setDark("light");
       localStorage.setItem("theme", "light");
     }
+
+    const handleData = async () => {
+      const gtoken = localStorage.getItem("token");
+      if (gtoken) {
+        const newUserData = await getUser(gtoken);
+        setUserData(newUserData);
+      } else {
+        setUserData(false);
+      }
+    };
+
+    handleData();
   }, []);
 
   const { isDark, setDark } = store();

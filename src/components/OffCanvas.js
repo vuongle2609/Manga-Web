@@ -1,5 +1,8 @@
 import store from "../state";
 import { Link, useLocation } from "react-router-dom";
+import BouncingBalls from "react-cssfx-loading/lib/BouncingBalls";
+import { getUser } from "../getData";
+import { useEffect } from "react";
 
 function CanvasSelector(props) {
   const location = useLocation();
@@ -55,22 +58,51 @@ function CanvasSections(props) {
 }
 
 function UserSections(props) {
-  return (
-    <div className="w-full dark:bg-sdarks bg-slights rounded-xl flex items-center justify-start p-5">
-      <div
-        className="h-[46px] w-[46px] rounded-full bg-cover bg-center flex-2"
-        style={{ backgroundImage: `url("${props.userImg}")` }}
-      ></div>
-      <div className="flex flex-col pl-4 w-9/12">
-        <span className="text-base dark:text-white font-medium overflow-hidden text-ellipsis w-full">
-          Mikuanmigoi
-        </span>
-        <span className="text-sm text-textGray dark:text-textDarkGray">
-          Role: User
-        </span>
+  const { userData } = store();
+
+  let render;
+
+  if (userData === "wait") {
+    render = (
+      <div className="w-full p-5 flex justify-center items-center">
+        <BouncingBalls
+          color="#ff6740"
+          width="20px"
+          height="20px"
+          duration="500ms"
+        />
       </div>
-    </div>
-  );
+    );
+  } else if (!userData) {
+    render = (
+      <Link
+        className="w-full  bg-primary rounded-xl items-center p-5 
+        text-white flex justify-center font-bold text-base"
+        to="/login"
+      >
+        Đăng nhập
+      </Link>
+    );
+  } else {
+    render = (
+      <div className="w-full dark:bg-sdarks bg-slights rounded-xl flex items-center justify-start p-5">
+        <div
+          className="h-[46px] w-[46px] rounded-full bg-cover bg-center flex-2"
+          style={{ backgroundImage: `url("${userData.avatar}")` }}
+        ></div>
+        <div className="flex flex-col pl-4 w-9/12">
+          <span className="text-base dark:text-white font-medium overflow-hidden text-ellipsis w-full">
+            {userData.name}
+          </span>
+          <span className="text-sm text-textGray dark:text-textDarkGray">
+            Role: {userData.role}
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  return render;
 }
 
 function FooterLink(props) {
@@ -100,7 +132,22 @@ function CustomLink({ to, name, icon }) {
 }
 
 export default function OffCanvas() {
-  const { canvas, setCanvas, setGenres } = store();
+  const { canvas, setCanvas, setGenres, setUserData } = store();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userHandle = async () => {
+      if (token) {
+        const NewUserData = await getUser(token);
+        setUserData(NewUserData);
+      } else {
+        setUserData(false);
+      }
+    };
+
+    // userHandle();
+  }, []);
+
   return (
     <>
       <div

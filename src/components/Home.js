@@ -1,9 +1,10 @@
 import Slider from "react-slick";
 import { useEffect, useState } from "react";
-import { getPopular } from "../getData";
+import { getPopular, getUser } from "../getData";
 import { MangaCardAIO, MangaCardDetail } from "./MangaCard";
 import Loading from "./Loading";
 import { Link } from "react-router-dom";
+import useStore from "../state";
 
 function HomeSlider(props) {
   const settings = {
@@ -127,12 +128,14 @@ function HomeNewManga(props) {
 
 export default function Home() {
   const [data, setData] = useState(false);
+  const { setUserData } = useStore();
 
   useEffect(() => {
     getPopular().then((data) => {
       setData(data);
     });
   }, []);
+
   return (
     <div className="grid wide">
       <HomeSlider data={data} />

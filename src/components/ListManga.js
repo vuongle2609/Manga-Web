@@ -1,10 +1,11 @@
 import { useLocation, Link } from "react-router-dom";
 import { useState, useEffect, useLayoutEffect } from "react";
-import { getList } from "../getData";
+import { getList, getUser } from "../getData";
 import { MangaCardAIO } from "./MangaCard";
 import Loading from "./Loading";
 import { handleURL, getUrlStatus, getUrlSort } from "../getData";
 import sad from "../img/sad.png";
+import useStore from "../state";
 
 function Options({ options, sort, status, linkStatus, linkSort }) {
   const [category, setCategory] = useState(false);
@@ -147,7 +148,7 @@ function Mangas({ data, del, setDel, canDel, path }) {
           cover={data.cover}
           title={data.title}
         />
-        {canDel ? (
+        {/* {canDel ? (
           <div className="flex items-center justify-center mb-3 select-none">
             <div
               onClick={deleteHandle}
@@ -159,7 +160,7 @@ function Mangas({ data, del, setDel, canDel, path }) {
           </div>
         ) : (
           false
-        )}
+        )} */}
       </div>
     </div>
   );
@@ -263,12 +264,12 @@ function Paginations({ data, currpage, linkList }) {
   );
 }
 
-function NotthingHere() {
+function NotthingHere(props) {
   return (
     <div className="w-full flex flex-col items-center mt-32">
       <img src={sad} alt="nothing" className="w-[15rem] h-auto" />
       <span className="text-xl dark:text-white font-medium mt-5">
-        Chưa có gì ở đây cả
+        {props.options || "Chưa có gì ở đây cả"}
       </span>
     </div>
   );
@@ -286,6 +287,8 @@ export default function ListManga() {
   const sort = query.get("sort") ? query.get("sort") : 0;
   const page = query.get("page") ? query.get("page") : 1;
   let path = location.pathname.slice(1);
+
+  const { userData, setUserData } = useStore();
 
   const filter = {
     genre,
@@ -318,13 +321,18 @@ export default function ListManga() {
         setData(false);
       }
     } else if (path === "favourite") {
-      const favoritesData = localStorage.getItem("manga-favourite");
+      const handleData = async () => {
+        const token = localStorage.getItem("token");
+        const newData = await getUser(token);
+        setUserData(newData);
+        if (userData.readingList) {
+          const favArr = userData.readingList;
 
-      if (favoritesData) {
-        setData(JSON.parse(favoritesData));
-      } else {
-        setData(false);
-      }
+          setData(favArr);
+        }
+      };
+
+      handleData();
     }
   }, [location, del]);
 
@@ -367,8 +375,10 @@ export default function ListManga() {
         </div>
       </>
     );
+  } else if (!userData && path === "favourite") {
+    render = <NotthingHere options={"Bạn chưa đăng nhập"} />;
   } else {
-    render = (
+    render = data ? (
       <div className="row">
         {data && Array.isArray(data) && data.length > 0 ? (
           data.map((manga, i) => (
@@ -385,6 +395,8 @@ export default function ListManga() {
           <NotthingHere />
         )}
       </div>
+    ) : (
+      <Loading />
     );
   }
 

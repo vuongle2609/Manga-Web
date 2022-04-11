@@ -3,7 +3,8 @@ import { getDetail, handleGenreEP } from "../getData";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
-import { timeHandle } from "../getData";
+import { timeHandle, updateManga, getUser, deleteManga } from "../getData";
+import useStore from "../state";
 
 function Header({ data }) {
   const [time, setTime] = useState(false);
@@ -160,51 +161,88 @@ function Body({ data, mangaEp, mangaObj }) {
 
 function ActionBtn({ mangaObj }) {
   const [isFav, setIsFav] = useState(false);
+  const { userData, setUserData, setLoad } = useStore();
 
   useEffect(() => {
-    if (localStorage.getItem("manga-favourite")) {
-      const favArr = JSON.parse(localStorage.getItem("manga-favourite"));
-      if (favArr) {
-        favArr.filter((manga) => {
-          if (mangaObj.title === manga.title) {
-            setIsFav(true);
+    if (userData) {
+      if (userData !== "wait") {
+        const favArr = userData.readingList;
+
+        let contain = false;
+        favArr.filter((m) => {
+          if (m.mangaEP === mangaObj.mangaEP) {
+            contain = true;
           }
         });
+
+        setIsFav(contain);
       }
     }
-  }, [isFav]);
+  }, [userData]);
 
-  const handleFavourite = () => {
-    if (!localStorage.getItem("manga-favourite")) {
-      const a = [mangaObj];
-      localStorage.setItem("manga-favourite", JSON.stringify(a));
-    } else {
-      const b = JSON.parse(localStorage.getItem("manga-favourite"));
-      if (isFav) {
-        const c = b.filter((manga) => {
-          if (mangaObj.title !== manga.title) {
-            return manga;
-          }
-        });
-        localStorage.setItem("manga-favourite", JSON.stringify(c));
+  const handleFavourite = async () => {
+    try {
+      setLoad(true);
+      const gtoken = localStorage.getItem("token");
+      const res = await updateManga(mangaObj);
+      const newUserData = await getUser(gtoken);
+      setUserData(newUserData);
+      setIsFav(true);
+      setLoad(false);
+    } catch (err) {
+      const status = err.response.status;
+
+      if (status === 403) {
+        window.location.reload(false);
         setIsFav(false);
-      } else {
-        b.unshift(mangaObj);
-        localStorage.setItem("manga-favourite", JSON.stringify(b));
-        setIsFav(true);
+        setLoad(false);
       }
     }
   };
 
-  return (
+  const handleDeleteFavourite = async () => {
+    try {
+      setLoad(true);
+      const res = await deleteManga(mangaObj.mangaEP);
+      const gtoken = localStorage.getItem("token");
+      const newUserData = await getUser(gtoken);
+      setUserData(newUserData);
+      setIsFav(false);
+      setLoad(false);
+    } catch (err) {
+      const status = err.response.status;
+
+      if (status === 403) {
+        window.location.reload(false);
+        setIsFav(true);
+        setLoad(false);
+      }
+    }
+  };
+
+  return !isFav ? (
     <div
       className={
         " py-2 rounded-md mx-[2px] mt-2 lg:mt-0 px-5 font-bold  select-none text-center w-fulll transition-all duration-150  flex items-center justify-center whitespace-nowrap cursor-pointer" +
-        (isFav ? " bg-[#ff7675] text-white" : " bg-slights dark:bg-sdarks dark:text-white")
+        (isFav
+          ? " bg-[#ff7675] text-white"
+          : " bg-slights dark:bg-sdarks dark:text-white")
       }
       onClick={handleFavourite}
     >
-      {isFav ? "Xóa khỏi bộ sưu tập" : "Thêm vào bộ sưu tập"}
+      Thêm vào bộ sưu tập
+    </div>
+  ) : (
+    <div
+      className={
+        " py-2 rounded-md mx-[2px] mt-2 lg:mt-0 px-5 font-bold  select-none text-center w-fulll transition-all duration-150  flex items-center justify-center whitespace-nowrap cursor-pointer" +
+        (isFav
+          ? " bg-[#ff7675] text-white"
+          : " bg-slights dark:bg-sdarks dark:text-white")
+      }
+      onClick={handleDeleteFavourite}
+    >
+      Xóa khỏi bộ sưu tập
     </div>
   );
 }

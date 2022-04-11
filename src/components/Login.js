@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { loginUser } from "../getData";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser, getUser } from "../getData";
 import useStore from "../state";
 import error from "../img/94442641_p0.jpg";
 
@@ -10,8 +10,15 @@ const Login = () => {
   const [passHide, setPassHide] = useState(true);
   const [logpass, setLogpass] = useState(false);
   const [logname, setLogname] = useState(false);
+  const navigate = useNavigate();
 
-  const { setLoad } = useStore();
+  const { setLoad, userData, setUserData } = useStore();
+
+  if (userData) {
+    if (userData !== "wait") {
+      navigate("/home");
+    }
+  }
 
   const handleUsername = (e) => {
     setLogname(false);
@@ -46,18 +53,22 @@ const Login = () => {
 
     try {
       const data = await loginUser(dataSubmit);
-      console.log(data.data);
-      localStorage.setItem("token", data.data.accessToken);
+      const newToken = data.data.accessToken;
+      localStorage.setItem("token", newToken);
+      const newUserData = await getUser(newToken);
+      setUserData(newUserData);
+      navigate("/home");
     } catch (err) {
       const status = err.response.status;
       if (status === 404) {
         setLogname("Không tìm thấy tên người dùng");
       } else if (status === 400) {
         setLogpass("Sai mật khẩu");
-      } else if (status === 500) {
+      } else {
         setLogpass("Lỗi phía sever");
       }
     }
+
     setLoad(false);
   };
 

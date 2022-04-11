@@ -18,6 +18,7 @@ module.exports = {
         textGray: "#212b36",
         textDarkGray: "#919eab",
         redActive: "rgba(255, 48, 48, 0.16)",
+        greenActive: "RGBA(55,255,48,0.16)",
       },
     },
   },

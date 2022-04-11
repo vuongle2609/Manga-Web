@@ -6,6 +6,12 @@ const store = create((set) => ({
   isSearch: false,
   canvas: false,
   load: false,
+  userData: "wait",
+  setUserData: (data) => {
+    set(() => ({
+      userData: data,
+    }));
+  },
   setLoad: (bol) => {
     set(() => ({
       load: bol,

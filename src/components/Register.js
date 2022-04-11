@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../getData";
 import useStore from "../state";
@@ -13,11 +13,13 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // if (localStorage.getItem("token")) {
-    //     navigate("/home");
-    // }
-  }, []);
+  const { userData } = useStore();
+
+  if (userData) {
+    if (userData !== "wait") {
+      navigate("/home");
+    }
+  }
 
   const { setLoad } = useStore();
 

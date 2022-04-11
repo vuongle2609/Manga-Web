@@ -182,7 +182,7 @@ export default function MangaReadPage() {
                 <img
                   src={page}
                   alt={`trang ${index}`}
-                  className="w-full lg:px-14"
+                  className="w-full md:px-20 lg:px-44"
                 />
               </LazyLoad>
             ))}
