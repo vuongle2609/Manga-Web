@@ -81,7 +81,7 @@ function FooterLink(props) {
       rel="noopener noreferrer"
       className="flex items-center dark:text-white"
     >
-      <i class={`bx mr-1 bxl-${props.icon}`}></i>
+      <i className={`bx mr-1 bxl-${props.icon}`}></i>
       <span>{props.label}</span>
     </a>
   );

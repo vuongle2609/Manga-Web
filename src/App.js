@@ -3,6 +3,7 @@ import store from "./state";
 import Modal from "./components/Modal";
 import MainApp from "./components/MainApp";
 import OffCanvas from "./components/OffCanvas";
+import LoadingModel from "./components/LoadingModel"
 import { useLayoutEffect } from "react";
 
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
       </div>
 
       <Modal />
+      <LoadingModel />
     </>
   );
 }

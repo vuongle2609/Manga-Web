@@ -1,21 +1,44 @@
+import axios from "axios";
+
+const apiPath = process.env.REACT_APP_BASE_API;
+const userPath = process.env.REACT_APP_USER_API;
+
+const mangaGet = axios.create({
+  baseURL: apiPath,
+});
+
+const mangaUser = axios.create({
+  baseURL: userPath,
+  mode: "no-cors",
+});
+
+export const loginUser = async (user) => {
+  const data = await mangaUser.post(`/login`, {
+    ...user,
+  });
+  return data;
+};
+
+export const registerUser = async (user) => {
+  const data = await mangaUser.post(`/register`, {
+    ...user,
+  });
+  return data;
+};
+
 export const getPopular = async () => {
-  const res = await fetch("https://mangalh-api.vercel.app/home");
-  const data = await res.json();
-  return data.data;
+  const data = await mangaGet.get(`/home`);
+  return data.data.data;
 };
 
 export const getDetail = async (ep) => {
-  const res = await fetch(`https://mangalh-api.vercel.app/manga/${ep}`);
-  const data = await res.json();
-  return data.data;
+  const data = await mangaGet.get(`/manga/${ep}`);
+  return data.data.data;
 };
 
 export const getPages = async ({ mangaEP, chapterEP }) => {
-  const res = await fetch(
-    `https://mangalh-api.vercel.app/manga/${mangaEP}/${chapterEP}`
-  );
-  const data = await res.json();
-  return data.data;
+  const data = await mangaGet.get(`/manga/${mangaEP}/${chapterEP}`);
+  return data.data.data;
 };
 
 export const getList = async ({ genre, status, sort, page }) => {
@@ -23,7 +46,7 @@ export const getList = async ({ genre, status, sort, page }) => {
 
   if (genre) {
     fetchLink =
-      "https://mangalh-api.vercel.app/list?genre=" +
+      `${apiPath}/list?genre=` +
       genre +
       "&" +
       (sort ? "sort=" + sort + "&" : "") +
@@ -31,25 +54,20 @@ export const getList = async ({ genre, status, sort, page }) => {
       (page ? "page=" + page : "");
   } else {
     fetchLink =
-    "https://mangalh-api.vercel.app/list?list=true&" +
-    (sort ? "sort=" + sort + "&" : "") +
-    (status ? "status=" + status + "&" : "") +
-    (page ? "page=" + page : "");
-  } 
+      `${apiPath}/list?list=true&` +
+      (sort ? "sort=" + sort + "&" : "") +
+      (status ? "status=" + status + "&" : "") +
+      (page ? "page=" + page : "");
+  }
 
-  const res = await fetch(fetchLink);
-  const data = await res.json();
-  return data.data;
+  const data = await mangaGet.get(fetchLink);
+  return data.data.data;
 };
 
 export const getSearch = async ({ keyword }) => {
   if (keyword.length > 0) {
-    const res = await fetch(
-      `https://mangalh-api.vercel.app/search?keyword=${keyword}`
-    );
-    const data = await res.json();
-
-    return data.data;
+    const data = await mangaGet.get(`/search?keyword=${keyword}`);
+    return data.data.data;
   } else {
     return false;
   }
@@ -94,14 +112,12 @@ export const getUrlStatus = ({ genre, status }) => {
 
 export const getUrlSort = ({ genre, sort }) => {
   return (
-    "/genres?" +
-    (genre ? `genre=${genre}` : "") +
-    (sort ? `&sort=${sort}` : "")
+    "/genres?" + (genre ? `genre=${genre}` : "") + (sort ? `&sort=${sort}` : "")
   );
 };
 
 export const handleGenreEP = (genre) => {
-  return removeVietnameseTones(genre).toLowerCase().replace(/\s/g, '-').trim();
+  return removeVietnameseTones(genre).toLowerCase().replace(/\s/g, "-").trim();
 };
 
 function removeVietnameseTones(str) {
@@ -119,8 +135,8 @@ function removeVietnameseTones(str) {
   str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
   str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
   str = str.replace(/Đ/g, "D");
-  str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); 
-  str = str.replace(/\u02C6|\u0306|\u031B/g, ""); 
+  str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, "");
+  str = str.replace(/\u02C6|\u0306|\u031B/g, "");
   str = str.replace(/ + /g, " ");
   str = str.trim();
   str = str.replace(

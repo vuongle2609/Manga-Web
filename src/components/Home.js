@@ -73,7 +73,7 @@ function HomeNewest(props) {
       <div className="mb-3 flex justify-between">
         <h2 className=" font-medium dark:text-white text-xl">Mới cập nhật</h2>
         <Link to="/list?sort=2">
-          <i class="bx bx-right-arrow-alt font-medium dark:text-white text-3xl"></i>
+          <i className="bx bx-right-arrow-alt font-medium dark:text-white text-3xl"></i>
         </Link>
       </div>
       <div className="row">
