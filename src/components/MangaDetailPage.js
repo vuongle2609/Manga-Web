@@ -281,7 +281,7 @@ function ActionZone({ data, mangaEp, mangaObj }) {
               }
               to="/login"
             >
-              Đăng nhập ngay để lưu
+              Đăng nhập ngay để lưu!
 
             </Link>
           )
