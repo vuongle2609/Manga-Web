@@ -58,7 +58,7 @@ function CanvasSections(props) {
 }
 
 function UserSections(props) {
-  const { userData } = store();
+  const { userData, setCanvas } = store();
 
   let render;
 
@@ -78,6 +78,7 @@ function UserSections(props) {
       <Link
         className="w-full  bg-primary rounded-xl items-center p-5 
         text-white flex justify-center font-bold text-base"
+        onClick={() => setCanvas(false)}
         to="/login"
       >
         Đăng nhập
@@ -85,7 +86,10 @@ function UserSections(props) {
     );
   } else {
     render = (
-      <div className="w-full dark:bg-sdarks bg-slights rounded-xl flex items-center justify-start p-5">
+      <Link
+        to={`/user?name=${userData.username}`}
+        className="w-full dark:bg-sdarks bg-slights rounded-xl flex items-center justify-start p-5"
+      >
         <div
           className="h-[46px] w-[46px] rounded-full bg-cover bg-center flex-2"
           style={{ backgroundImage: `url("${userData.avatar}")` }}
@@ -98,7 +102,7 @@ function UserSections(props) {
             Role: {userData.role}
           </span>
         </div>
-      </div>
+      </Link>
     );
   }
 

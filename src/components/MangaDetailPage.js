@@ -164,7 +164,6 @@ function ActionBtn({ mangaObj }) {
   const { userData, setUserData, setLoad } = useStore();
 
   useEffect(() => {
-    console.log("user", userData.readingList);
     if (userData) {
       if (userData !== "wait") {
         const favArr = userData.readingList;
@@ -185,7 +184,6 @@ function ActionBtn({ mangaObj }) {
     setLoad(true);
     const res = await updateManga(mangaObj);
     const newUserData = res.data.user;
-    console.log("new", newUserData.readingList);
     setUserData(newUserData);
     setIsFav(true);
     setLoad(false);
@@ -195,7 +193,6 @@ function ActionBtn({ mangaObj }) {
     setLoad(true);
     const res = await deleteManga(mangaObj.mangaEP);
     const newUserData = res.data.user;
-    console.log("new", newUserData.readingList);
     setUserData(newUserData);
     setIsFav(false);
     setLoad(false);

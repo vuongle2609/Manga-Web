@@ -6,6 +6,7 @@ import Error from "./Error";
 import ToTop from "./ToTop";
 import Login from "./Login";
 import Register from "./Register";
+import User from "./User";
 import { Routes, Route } from "react-router-dom";
 
 export default function MainApp() {
@@ -27,6 +28,7 @@ export default function MainApp() {
         <Route path="/read" element={<MangaReadPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/user" element={<User />} />
       </Routes>
       <ToTop />
     </div>

@@ -57,6 +57,7 @@ const Login = () => {
       localStorage.setItem("token", newToken);
       const newUserData = data.data.user;
       setUserData(newUserData["_doc"]);
+      setLoad(false);
       navigate("/home");
     } catch (err) {
       const status = err.response.status;
@@ -67,9 +68,8 @@ const Login = () => {
       } else {
         setLogpass("Lỗi phía sever");
       }
+      setLoad(false);
     }
-
-    setLoad(false);
   };
 
   return (

@@ -7,6 +7,12 @@ const store = create((set) => ({
   canvas: false,
   load: false,
   userData: "wait",
+  confirmOut: false,
+  setConfirmOut: (bol) => {
+    set(() => ({
+      confirmOut: bol,
+    }));
+  },
   setUserData: (data) => {
     set(() => ({
       userData: data,

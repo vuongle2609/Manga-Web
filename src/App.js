@@ -4,6 +4,7 @@ import Modal from "./components/Modal";
 import MainApp from "./components/MainApp";
 import OffCanvas from "./components/OffCanvas";
 import LoadingModel from "./components/LoadingModel";
+import LogoutModel from "./components/LogoutModel";
 import { useLayoutEffect } from "react";
 import { getUser } from "./getData";
 import useStore from "./state";
@@ -55,6 +56,7 @@ export default function App() {
 
       <Modal />
       <LoadingModel />
+      <LogoutModel />
     </>
   );
 }
