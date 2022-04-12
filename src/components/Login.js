@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser, getUser } from "../getData";
+import { loginUser } from "../getData";
 import useStore from "../state";
 import error from "../img/94442641_p0.jpg";
 
@@ -55,8 +55,8 @@ const Login = () => {
       const data = await loginUser(dataSubmit);
       const newToken = data.data.accessToken;
       localStorage.setItem("token", newToken);
-      const newUserData = await getUser(newToken);
-      setUserData(newUserData);
+      const newUserData = data.data.user;
+      setUserData(newUserData["_doc"]);
       navigate("/home");
     } catch (err) {
       const status = err.response.status;

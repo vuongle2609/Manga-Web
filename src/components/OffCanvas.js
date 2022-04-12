@@ -132,21 +132,7 @@ function CustomLink({ to, name, icon }) {
 }
 
 export default function OffCanvas() {
-  const { canvas, setCanvas, setGenres, setUserData } = store();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userHandle = async () => {
-      if (token) {
-        const NewUserData = await getUser(token);
-        setUserData(NewUserData);
-      } else {
-        setUserData(false);
-      }
-    };
-
-    // userHandle();
-  }, []);
+  const { canvas, setCanvas, setGenres, setUserData, userData } = store();
 
   return (
     <>

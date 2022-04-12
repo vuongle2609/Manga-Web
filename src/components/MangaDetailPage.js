@@ -164,6 +164,7 @@ function ActionBtn({ mangaObj }) {
   const { userData, setUserData, setLoad } = useStore();
 
   useEffect(() => {
+    console.log("user", userData.readingList);
     if (userData) {
       if (userData !== "wait") {
         const favArr = userData.readingList;
@@ -181,43 +182,23 @@ function ActionBtn({ mangaObj }) {
   }, [userData]);
 
   const handleFavourite = async () => {
-    try {
-      setLoad(true);
-      const gtoken = localStorage.getItem("token");
-      const res = await updateManga(mangaObj);
-      const newUserData = await getUser(gtoken);
-      setUserData(newUserData);
-      setIsFav(true);
-      setLoad(false);
-    } catch (err) {
-      const status = err.response.status;
-
-      if (status === 403) {
-        window.location.reload(false);
-        setIsFav(false);
-        setLoad(false);
-      }
-    }
+    setLoad(true);
+    const res = await updateManga(mangaObj);
+    const newUserData = res.data.user;
+    console.log("new", newUserData.readingList);
+    setUserData(newUserData);
+    setIsFav(true);
+    setLoad(false);
   };
 
   const handleDeleteFavourite = async () => {
-    try {
-      setLoad(true);
-      const res = await deleteManga(mangaObj.mangaEP);
-      const gtoken = localStorage.getItem("token");
-      const newUserData = await getUser(gtoken);
-      setUserData(newUserData);
-      setIsFav(false);
-      setLoad(false);
-    } catch (err) {
-      const status = err.response.status;
-
-      if (status === 403) {
-        window.location.reload(false);
-        setIsFav(true);
-        setLoad(false);
-      }
-    }
+    setLoad(true);
+    const res = await deleteManga(mangaObj.mangaEP);
+    const newUserData = res.data.user;
+    console.log("new", newUserData.readingList);
+    setUserData(newUserData);
+    setIsFav(false);
+    setLoad(false);
   };
 
   return !isFav ? (

@@ -9,7 +9,6 @@ const mangaGet = axios.create({
 
 const mangaUser = axios.create({
   baseURL: userPath,
-  mode: "no-cors",
   headers: { authorization: `Beaer ${localStorage.getItem("token")}` },
 });
 

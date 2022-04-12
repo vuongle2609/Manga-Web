@@ -321,18 +321,8 @@ export default function ListManga() {
         setData(false);
       }
     } else if (path === "favourite") {
-      const handleData = async () => {
-        const token = localStorage.getItem("token");
-        const newData = await getUser(token);
-        setUserData(newData);
-        if (userData.readingList) {
-          const favArr = userData.readingList;
-
-          setData(favArr);
-        }
-      };
-
-      handleData();
+      const favArr = userData.readingList;
+      setData(favArr);
     }
   }, [location, del]);
 
