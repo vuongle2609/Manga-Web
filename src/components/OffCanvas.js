@@ -87,7 +87,8 @@ function UserSections(props) {
   } else {
     render = (
       <Link
-        to={`/user?name=${userData.username}`}
+        to={`/user`}
+        onClick={() => setCanvas(false)}
         className="w-full dark:bg-sdarks bg-slights rounded-xl flex items-center justify-start p-5"
       >
         <div
@@ -136,7 +137,7 @@ function CustomLink({ to, name, icon }) {
 }
 
 export default function OffCanvas() {
-  const { canvas, setCanvas, setGenres, setUserData, userData } = store();
+  const { canvas, setCanvas, setGenres } = store();
 
   return (
     <>
