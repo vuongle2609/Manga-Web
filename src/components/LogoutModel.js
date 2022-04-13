@@ -11,6 +11,7 @@ const LogoutModel = () => {
     setUserData(false);
     setConfirmOut(false);
     navigate("/home");
+    window.location.reload(false);
   };
 
   return (
@@ -21,20 +22,20 @@ const LogoutModel = () => {
         (confirmOut ? " flex" : " hidden")
       }
     >
-      <div className="bg-white dark:bg-bdark rounded-md p-4">
+      <div className="bg-white dark:bg-bdark rounded-md p-4 shadow-lg">
         <h2 className="font-bold dark:text-white text-lg block mb-2">
           Bạn có chắc muốn đăng xuất
         </h2>
         <div className="flex justify-end">
           <div
             onClick={handleLogout}
-            className="bg-red-500 text-white px-2 py-1 rounded-md mr-2"
+            className="bg-red-500 text-white px-2 py-1 rounded-md mr-2 cursor-pointer"
           >
             Đăng xuất
           </div>
           <div
             onClick={() => setConfirmOut(false)}
-            className="bg-white dark:bg-sdarks dark:text-white px-2 py-1 rounded-md"
+            className="bg-white dark:bg-sdarks dark:text-white px-2 py-1 rounded-md cursor-pointer"
           >
             Hủy
           </div>

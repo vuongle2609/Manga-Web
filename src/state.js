@@ -8,6 +8,12 @@ const store = create((set) => ({
   load: false,
   userData: "wait",
   confirmOut: false,
+  bigCover: false,
+  setCover: (link) => {
+    set(() => ({
+      bigCover: link,
+    }));
+  },
   setConfirmOut: (bol) => {
     set(() => ({
       confirmOut: bol,

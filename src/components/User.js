@@ -12,43 +12,43 @@ const User = () => {
     <div className="grid wide">
       <div className="row">
         <div className="col c-12 ">
-          <div className="w-full flex py-4 md:py-5 md:px-4 lg:py-8 lg:px-4 bg-slights dark:bg-sdarks rounded-md px-2">
+          <div className="w-full flex py-4 md:py-5 md:px-4 lg:py-8 lg:px-4 bg-white dark:bg-sdarks rounded-md px-2">
             <div
               className="w-24 h-24 min-h-24 md:w-32 md:h-32 bg-center bg-cover rounded-full"
               style={{ backgroundImage: `url(${userData.avatar})` }}
             ></div>
-            <div className="px-2 md:ml-4 dark:text-white flex-1">
+            <div className="px-2 md:ml-4 dark:text-white flex-1 flex flex-col">
               <h2 className="font-bold text-xl md:text-2xl lg:text-3xl">
                 {userData.name}
               </h2>
               <span className="block mb-2 md:text-lg">Tham gia: {time}</span>
-              <div className="flex flex-wrap">
+              <div className="flex flex-wrap mt-auto">
                 <Link
                   to="/favourite"
-                  className="bg-[#ff7675] pr-3 md:pl-8 mb-2 pl-7 py-1 rounded-md flex relative mr-2 text-white"
+                  className="bg-[#ff7675] pr-3 md:pl-8 mt-2 pl-7 py-1 rounded-md flex relative mr-2 text-white cursor-pointer"
                 >
                   <i
                     className="md:text-xl bx bxs-heart absolute left-2 top-[53%] md:top-[51%]
                     translate-y-[-50%]"
                   ></i>
-                  <span className="md:text-xl">Bộ sưu tập</span>
+                  <span className="md:text-lg">Bộ sưu tập</span>
                 </Link>
-                <div className="bg-textDarkGray pr-3 md:pl-8 mb-2 pl-7 py-1 rounded-md flex relative text-white">
+                <div className="bg-textDarkGray pr-3 md:pl-8 mt-2 pl-7 py-1 rounded-md flex relative text-white mr-2 cursor-pointer">
                   <i
                     className="md:text-xl bx bxs-cog absolute left-2 top-[53%] md:top-[51%]
                     translate-y-[-50%]"
                   ></i>
-                  <span className="md:text-xl">Cài đặt</span>
+                  <span className="md:text-lg">Cài đặt</span>
                 </div>
                 <div
                   onClick={() => setConfirmOut(true)}
-                  className="bg-red-500 pr-3 md:pl-8 mb-2 pl-7 py-1 rounded-md flex relative text-white"
+                  className="bg-red-500 pr-3 md:pl-8 mt-2 pl-7 py-1 rounded-md flex relative text-white cursor-pointer"
                 >
                   <i
                     className="md:text-xl bx bx-log-out absolute left-2 top-[53%] md:top-[51%]
                     translate-y-[-50%]"
                   ></i>
-                  <span className="md:text-xl">Đăng Xuất</span>
+                  <span className="md:text-lg">Đăng Xuất</span>
                 </div>
               </div>
             </div>
@@ -56,7 +56,7 @@ const User = () => {
         </div>
 
         <div className="col c-12">
-          <div className="w-full flex py-2 bg-slights dark:bg-sdarks rounded-md px-2 mt-4 flex-col">
+          <div className="w-full flex py-2 bg-white dark:bg-sdarks rounded-md px-2 mt-4 flex-col">
             <h1 className="text-lg dark:text-white font-bold mx-2">
               Đã lưu gần đây
             </h1>

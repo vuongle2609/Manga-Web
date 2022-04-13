@@ -288,7 +288,7 @@ export default function ListManga() {
   const page = query.get("page") ? query.get("page") : 1;
   let path = location.pathname.slice(1);
 
-  const { userData, setUserData } = useStore();
+  const { userData } = useStore();
 
   const filter = {
     genre,

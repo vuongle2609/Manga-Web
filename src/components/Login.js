@@ -56,6 +56,7 @@ const Login = () => {
       const newToken = data.data.accessToken;
       localStorage.setItem("token", newToken);
       const newUserData = data.data.user;
+      console.log(newUserData);
       setUserData(newUserData["_doc"]);
       setLoad(false);
       navigate("/home");
