@@ -3,11 +3,12 @@ import { getDetail, handleGenreEP } from "../getData";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
-import { timeHandle, updateManga, getUser, deleteManga } from "../getData";
+import { timeHandle, updateManga, deleteManga } from "../getData";
 import useStore from "../state";
 
 function Header({ data }) {
   const [time, setTime] = useState(false);
+  const { setCover } = useStore();
 
   useEffect(() => {
     const title = document.querySelector(".title-detail");
@@ -27,6 +28,7 @@ function Header({ data }) {
         <div className="w-full">
           <div
             className="cover-detail pt-[142.5%] bg-cover rounded-sm"
+            onClick={() => setCover(data.cover)}
             style={{ backgroundImage: `url('${data.cover}')` }}
           ></div>
         </div>
@@ -181,22 +183,38 @@ function ActionBtn({ mangaObj }) {
   }, [userData]);
 
   const handleFavourite = async () => {
+<<<<<<< HEAD
     setLoad(true);
     const res = await updateManga(mangaObj);
     const newUserData = res.data.user;
     setUserData(newUserData);
     setIsFav(true);
     setLoad(false);
+=======
+    try {
+      setLoad(true);
+      const res = await updateManga(mangaObj);
+      const newUserData = res.data.user;
+      setUserData(newUserData);
+      setIsFav(true);
+      setLoad(false);
+    } catch (err) {
+      setLoad(false);
+    }
+>>>>>>> 8832c705370f67fc9fe2f4b7730dd91ed55fbb39
   };
 
   const handleDeleteFavourite = async () => {
-    setLoad(true);
-    const res = await deleteManga(mangaObj.mangaEP);
-    const newUserData = res.data.user;
-    console.log("new", newUserData.readingList);
-    setUserData(newUserData);
-    setIsFav(false);
-    setLoad(false);
+    try {
+      setLoad(true);
+      const res = await deleteManga(mangaObj.mangaEP);
+      const newUserData = res.data.user;
+      setUserData(newUserData);
+      setIsFav(false);
+      setLoad(false);
+    } catch (err) {
+      setLoad(false);
+    }
   };
 
   return !isFav ? (
@@ -240,7 +258,11 @@ function ActionLink({ name, path }) {
 }
 
 function ActionZone({ data, mangaEp, mangaObj }) {
+<<<<<<< HEAD
   const [isLogin, setLogin] = useState(false)
+=======
+  const [login, setLogin] = useState(false);
+>>>>>>> 8832c705370f67fc9fe2f4b7730dd91ed55fbb39
   let firstChap;
   let lastChap;
   const { userData } = useStore()
@@ -258,6 +280,16 @@ function ActionZone({ data, mangaEp, mangaObj }) {
   firstChap = chapArr[0].chapEP;
   lastChap = chapArr[chapLength - 1].chapEP;
 
+  const { userData } = useStore();
+
+  useEffect(() => {
+    if (userData && userData !== "wait") {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  }, [userData]);
+
   return (
     <div className="px-2 pt-4 row">
       <div className="col c-12 flex flex-col lg:flex-row">
@@ -271,6 +303,7 @@ function ActionZone({ data, mangaEp, mangaObj }) {
             path={`/read?name=${mangaEp}&chap=${lastChap}`}
           />
         </div>
+<<<<<<< HEAD
         {isLogin ?
           <ActionBtn mangaObj={mangaObj} /> :
           (
@@ -286,6 +319,21 @@ function ActionZone({ data, mangaEp, mangaObj }) {
             </Link>
           )
         }
+=======
+        {login ? (
+          <ActionBtn mangaObj={mangaObj} />
+        ) : (
+          <Link
+            to="/login"
+            className={
+              " py-2 rounded-md mx-[2px] mt-2 lg:mt-0 px-5 font-bold  select-none text-center w-fulll transition-all duration-150  flex items-center justify-center whitespace-nowrap cursor-pointer" +
+              " bg-textDarkGray text-white"
+            }
+          >
+            Đăng nhập ngay để lưu!
+          </Link>
+        )}
+>>>>>>> 8832c705370f67fc9fe2f4b7730dd91ed55fbb39
       </div>
     </div>
   );

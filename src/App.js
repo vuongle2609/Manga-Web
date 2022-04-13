@@ -4,6 +4,8 @@ import Modal from "./components/Modal";
 import MainApp from "./components/MainApp";
 import OffCanvas from "./components/OffCanvas";
 import LoadingModel from "./components/LoadingModel";
+import LogoutModel from "./components/LogoutModel";
+import CoverModal from "./components/CoverModal";
 import { useLayoutEffect } from "react";
 import { getUser } from "./getData";
 import useStore from "./state";
@@ -22,8 +24,14 @@ export default function App() {
     const handleData = async () => {
       const gtoken = localStorage.getItem("token");
       if (gtoken) {
-        const newUserData = await getUser(gtoken);
-        setUserData(newUserData);
+        try {
+          const newUserData = await getUser(gtoken);
+          setUserData(newUserData);
+        } catch (err) {
+          console.error(err);
+          localStorage.removeItem("token");
+          setUserData(false);
+        }
       } else {
         setUserData(false);
       }
@@ -55,6 +63,8 @@ export default function App() {
 
       <Modal />
       <LoadingModel />
+      <LogoutModel />
+      <CoverModal />
     </>
   );
 }

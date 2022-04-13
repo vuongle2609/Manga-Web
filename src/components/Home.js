@@ -104,7 +104,7 @@ function HomeNewManga(props) {
       <div className="mb-3 flex justify-between">
         <h2 className=" font-medium dark:text-white text-xl">Truyện mới</h2>
         <Link to="/list?sort=3">
-          <i class="bx bx-right-arrow-alt font-medium dark:text-white text-3xl"></i>
+          <i className="bx bx-right-arrow-alt font-medium dark:text-white text-3xl"></i>
         </Link>
       </div>
       <div className="row nowrap overflow-hidden">
