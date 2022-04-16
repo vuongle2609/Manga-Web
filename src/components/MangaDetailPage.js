@@ -308,17 +308,11 @@ function ActionZone({ data, mangaEp, mangaObj }) {
 export default function MangaDetailPage() {
   let location = useLocation();
   let query = new URLSearchParams(location.search);
-  const { setUserData } = useStore();
+  const { setUserData, userData } = useStore();
 
   const [data, setData] = useState(false);
 
   const mangaEP = query.get("name");
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    setData(false);
-    getDetail(mangaEP).then(setData);
-  }, [location]);
 
   const mangaObj = {
     title: data.title,
@@ -331,12 +325,19 @@ export default function MangaDetailPage() {
     status: data.status,
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setData(false);
+    getDetail(mangaEP).then(setData);
+  }, [location]);
+
   const handleHistory = async () => {
     const res = await updateHistory(mangaObj);
     setUserData(res.data.user);
   };
 
-  if (data) handleHistory();
+  if (userData && data && userData.historyList[0].mangaEP !== mangaEP)
+    handleHistory();
 
   return data ? (
     <div className="relative min-h-screen w-full">

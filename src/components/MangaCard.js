@@ -10,7 +10,7 @@ export const MangaCardAIO = function (props) {
           <div
             style={{ backgroundImage: `url('${props.cover}')` }}
             className={
-              "pt-[142.5%] bg-cover rounded-lg overflow-hidden relative shadow-sm shadow-black dark:shadow-none" +
+              "pt-[142.5%] bg-cover rounded-md overflow-hidden relative shadow-sm shadow-black dark:shadow-none" +
               (props.slider ? "" : " scale-100 hover:scale-[102%] duration-150")
             }
           >
