@@ -362,6 +362,8 @@ export default function ListManga() {
     );
   } else if (!userData && path === "favourite") {
     render = <NotthingHere options={"Bạn chưa đăng nhập"} />;
+  } else if (!userData && path === "history") {
+    render = <NotthingHere options={"Bạn chưa đăng nhập"} />;
   } else {
     render = data ? (
       <div className="row">
