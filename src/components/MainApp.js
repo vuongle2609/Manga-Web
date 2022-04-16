@@ -7,6 +7,7 @@ import ToTop from "./ToTop";
 import Login from "./Login";
 import Register from "./Register";
 import User from "./User";
+import UserInfo from "./UserInfo";
 import { Routes, Route } from "react-router-dom";
 
 export default function MainApp() {
@@ -29,6 +30,7 @@ export default function MainApp() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/user" element={<User />} />
+        <Route path="/userinfo" element={<UserInfo />} />
       </Routes>
       <ToTop />
     </div>

@@ -313,13 +313,8 @@ export default function ListManga() {
       linkList = handleURL(filter);
       getList(filter).then((data) => setData(data));
     } else if (path === "history") {
-      const historyData = localStorage.getItem("manga-history");
-
-      if (historyData) {
-        setData(JSON.parse(historyData));
-      } else {
-        setData(false);
-      }
+      const favArr = userData.historyList;
+      setData(favArr);
     } else if (path === "favourite") {
       const favArr = userData.readingList;
       setData(favArr);

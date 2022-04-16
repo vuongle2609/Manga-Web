@@ -33,13 +33,16 @@ const User = () => {
                   ></i>
                   <span className="md:text-lg">Bộ sưu tập</span>
                 </Link>
-                <div className="bg-textDarkGray pr-3 md:pl-8 mt-2 pl-7 py-1 rounded-md flex relative text-white mr-2 cursor-pointer">
+                <Link
+                  to="/userinfo"
+                  className="bg-textDarkGray pr-3 md:pl-8 mt-2 pl-7 py-1 rounded-md flex relative text-white mr-2 cursor-pointer"
+                >
                   <i
                     className="md:text-xl bx bxs-cog absolute left-2 top-[53%] md:top-[51%]
                     translate-y-[-50%]"
                   ></i>
                   <span className="md:text-lg">Cài đặt</span>
-                </div>
+                </Link>
                 <div
                   onClick={() => setConfirmOut(true)}
                   className="bg-red-500 pr-3 md:pl-8 mt-2 pl-7 py-1 rounded-md flex relative text-white cursor-pointer"

@@ -11,9 +11,33 @@ const mangaUser = axios.create({
   baseURL: userPath,
 });
 
+export const updateHistory = async (mangaObj) => {
+  const token = localStorage.getItem("token");
+  const data = await axios.post(
+    "/history",
+    { manga: mangaObj },
+    {
+      baseURL: userPath,
+      headers: { authorization: `Beaer ${token}` },
+    }
+  );
+
+  return data;
+};
+
+export const changeInfo = async (userDataSet) => {
+  const token = localStorage.getItem("token");
+  const data = await axios.post("/user", userDataSet, {
+    baseURL: userPath,
+    headers: { authorization: `Beaer ${token}` },
+  });
+
+  return data;
+};
+
 export const deleteManga = async (mangaEp) => {
   const token = localStorage.getItem("token");
-  const data = axios.delete("/manga", {
+  const data = await axios.delete("/manga", {
     data: {
       manga_ep: mangaEp,
     },
@@ -26,7 +50,7 @@ export const deleteManga = async (mangaEp) => {
 
 export const updateManga = async (mangaObj) => {
   const token = localStorage.getItem("token");
-  const data = axios.post(
+  const data = await axios.post(
     "/manga",
     {
       manga: mangaObj,

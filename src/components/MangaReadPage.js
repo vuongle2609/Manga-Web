@@ -173,7 +173,7 @@ export default function MangaReadPage() {
   return data ? (
     <>
       <Navbar data={data} mangaEP={mangaEP} />
-      <div className="grid wide">
+      <div className="grid wide no-p">
         <div className="row">
           <div className="col c-12"></div>
           <div className="col c-12">

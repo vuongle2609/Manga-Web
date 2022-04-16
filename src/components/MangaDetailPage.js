@@ -3,7 +3,12 @@ import { getDetail, handleGenreEP } from "../getData";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
-import { timeHandle, updateManga, deleteManga } from "../getData";
+import {
+  timeHandle,
+  updateManga,
+  deleteManga,
+  updateHistory,
+} from "../getData";
 import useStore from "../state";
 
 function Header({ data }) {
@@ -303,6 +308,7 @@ function ActionZone({ data, mangaEp, mangaObj }) {
 export default function MangaDetailPage() {
   let location = useLocation();
   let query = new URLSearchParams(location.search);
+  const { setUserData } = useStore();
 
   const [data, setData] = useState(false);
 
@@ -325,22 +331,9 @@ export default function MangaDetailPage() {
     status: data.status,
   };
 
-  const handleHistory = () => {
-    if (!localStorage.getItem("manga-history")) {
-      const a = [mangaObj];
-      localStorage.setItem("manga-history", JSON.stringify(a));
-    } else {
-      const b = JSON.parse(localStorage.getItem("manga-history"));
-
-      const c = b.filter((manga) => {
-        if (data.title !== manga.title) {
-          return manga;
-        }
-      });
-
-      c.unshift(mangaObj);
-      localStorage.setItem("manga-history", JSON.stringify(c));
-    }
+  const handleHistory = async () => {
+    const res = await updateHistory(mangaObj);
+    setUserData(res.data.user);
   };
 
   if (data) handleHistory();

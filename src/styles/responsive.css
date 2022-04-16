@@ -8,6 +8,10 @@
     padding: 20px;
 }
 
+.grid.no-p {
+    padding: 0px;
+}
+
 .grid.wide {
     max-width: 1200px;
     margin: 0 auto;
