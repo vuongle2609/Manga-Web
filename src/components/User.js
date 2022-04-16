@@ -88,7 +88,7 @@ const User = () => {
                     to="/home"
                     className="block bg-primary px-2 py-1 text-white rounded-md mb-2"
                   >
-                    Đọc truyện nào!
+                    Đọc truyện nào!!
                   </Link>
                 </div>
               )}
