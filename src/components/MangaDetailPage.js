@@ -336,13 +336,11 @@ export default function MangaDetailPage() {
     setUserData(res.data.user);
   };
 
-  if (
-    userData &&
-    data &&
-    userData.historyList[0] &&
-    userData.historyList[0].mangaEP !== mangaEP
-  )
+  if (userData && data && userData.historyList[0].mangaEP !== mangaEP) {
     handleHistory();
+  } else if (!userData.historyList[0]) {
+    handleHistory();
+  }
 
   return data ? (
     <div className="relative min-h-screen w-full">
