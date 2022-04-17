@@ -336,7 +336,12 @@ export default function MangaDetailPage() {
     setUserData(res.data.user);
   };
 
-  if (userData && data && userData.historyList[0].mangaEP !== mangaEP)
+  if (
+    userData &&
+    data &&
+    userData.historyList[0] &&
+    userData.historyList[0].mangaEP !== mangaEP
+  )
     handleHistory();
 
   return data ? (
