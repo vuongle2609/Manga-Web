@@ -338,7 +338,7 @@ export default function MangaDetailPage() {
 
   if (userData && data && userData.historyList[0].mangaEP !== mangaEP) {
     handleHistory();
-  } else if (!userData.historyList[0]) {
+  } else if (userData && userData.historyList[0]) {
     handleHistory();
   }
 
