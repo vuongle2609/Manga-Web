@@ -1,10 +1,15 @@
 import Slider from "react-slick";
 import { useEffect, useState } from "react";
-import { getPopular, getUser } from "../getData";
-import { MangaCardAIO, MangaCardDetail } from "./MangaCard";
+import { getPopular } from "../getData";
+import { MangaCardAIO, MangaCardDetail, MangaCardBigDetail } from "./MangaCard";
 import Loading from "./Loading";
 import { Link } from "react-router-dom";
-import useStore from "../state";
+
+function importAll(r) {
+  return r.keys().map(r);
+}
+
+const imagesRec = importAll(require.context('../img/rec', false, /\.(png|jpe?g|svg)$/));
 
 function HomeSlider(props) {
   const settings = {
@@ -14,7 +19,7 @@ function HomeSlider(props) {
     speed: 300,
     autoplay: true,
     autoplaySpeed: 4000,
-    slidesToShow: 5,
+    slidesToShow: 6,
     slidesToScroll: 5,
     responsive: [
       {
@@ -45,7 +50,7 @@ function HomeSlider(props) {
     ],
   };
   return props.data ? (
-    <div className="row">
+    <div className="row no-gutters">
       <div className="col c-12 mb-2">
         <h2 className="mb-3 font-medium dark:text-white lg:text-xl">Nổi bật</h2>
         <Slider {...settings}>
@@ -126,9 +131,46 @@ function HomeNewManga(props) {
   );
 }
 
+const HomeRecommend = (props) => {
+  const mangasRecommended = [
+    {
+      title: "Attack On Titan",
+      detail: "Hơn 100 năm trước, giống người khổng lồ Titan đã tấn công và đẩy loài người tới bờ vực tuyệt chủng. Những con người sống sót tụ tập lại, xây bao quanh mình 1 tòa thành 3 lớp kiên cố và tự nhốt mình bên trong để trốn tránh những cuộc tấn công của người khổng lồ. Họ tìm mọi cách để tiêu diệt người khổng lồ nhưng không thành công. Và sau 1 thế kỉ hòa bình, giống khổng lồ đã xuất hiện trở lại, một lần nữa đe dọa sự tồn vong của con người....  Elen và Mikasa phải chứng kiến một cảnh tượng cực kinh khủng - mẹ của mình bị ăn thịt ngay trước mắt. Elen thề rằng cậu sẽ giết tất cả những tên khổng lồ mà cậu gặp.....",
+      cover: imagesRec[0],
+      mangaEP: "attack-on-titan"
+    },
+    {
+      title: "Kishuku Gakkou no Alice",
+      detail: "Bối cảnh diễn ra tại trường nội trú Dahlia Academy ở đảo Dahlia. Inuzuka Romio - thủ lĩnh nhà Hắc Khuyển Black Doggie của học sinh Touwa Quốc - có tình cảm từ bé với Juliet Persia - thủ lĩnh nhà Bạch Miêu White Cats của học sinh Công Quốc West. Ban đầu do dự, nhưng Romio cũng quyết định tỏ tình và muốn cùng Juliet thay đổi thế giới. Juliet, bị ấn tượng bởi quyết tâm của Romio, cô chấp nhận tình yêu của anh. Tuy nhiên vì sự thù địch của hai nước, cả Romio và Juliet đều phải nỗ lực để giữ bí mật mối quan hệ của họ với những người bạn cùng ký túc xá khác, cũng như phải cùng nhau thay đổi từ ngôi trường đến thế giới, không chỉ cho tình yêu của hai người, mà còn cho cả mối quan hệ của hai quốc gia.",
+      cover: imagesRec[1],
+      mangaEP: "kishuku-gakkou-no-alice"
+    },
+    {
+      title: "One Punch-Man",
+      detail: "Onepunch-Man là một Manga thể loại siêu anh hùng với đặc trưng phồng tôm đấm phát chết luôn… Lol!!! Nhân vật chính trong Onepunch-man là Saitama, một con người mà nhìn đâu cũng thấy “tầm thường”, từ khuôn mặt vô hồn, cái đầu trọc lóc, cho tới thể hình long tong. Tuy nhiên, con người nhìn thì tầm thường này lại chuyên giải quyết những vấn đề hết sức bất thường. Anh thực chất chính là một siêu anh hùng luôn tìm kiếm cho mình một đối thủ mạnh. Vấn đề là, cứ mỗi lần bắt gặp một đối thủ tiềm năng, thì đối thủ nào cũng như đối thủ nào, chỉ ăn một đấm của anh là… chết luôn. Liệu rằng Onepunch-Man Saitaman có thể tìm được cho mình một kẻ ác dữ dằn đủ sức đấu với anh? Hãy theo bước Saitama trên con đường một đấm tìm đối cực kỳ hài hước của anh!!",
+      cover: imagesRec[2],
+      mangaEP: "onepunch-man"
+    },
+  ]
+
+  return props.data ? (
+    <>
+      <div className="mb-3 flex justify-between">
+        <h2 className=" font-medium dark:text-white text-xl">Đề xuất</h2>
+      </div>
+      <div className="row justify-center">
+        {mangasRecommended.map((manga, index) => (
+          <div className="col c-4 s-12 rm-6" key={index}>
+            <MangaCardBigDetail manga={manga} />
+          </div>
+        ))}
+      </div>
+    </>
+  ) : <Loading />
+}
+
 export default function Home() {
   const [data, setData] = useState(false);
-  const { setUserData } = useStore();
 
   useEffect(() => {
     getPopular().then((data) => {
@@ -143,7 +185,10 @@ export default function Home() {
         <div className="col c-12">
           <HomeNewest data={data} />
         </div>
-        <div className="col c-12">
+        <div className="col c-12 mt-6">
+          <HomeRecommend data={data} />
+        </div>
+        <div className="col c-12 mt-6">
           <HomeNewManga data={data} />
         </div>
       </div>

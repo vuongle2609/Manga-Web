@@ -11,7 +11,7 @@ import { getUser } from "./getData";
 import useStore from "./state";
 
 export default function App() {
-  const { setUserData } = useStore();
+  const { setUserData,userData } = useStore();
   useLayoutEffect(() => {
     const existingPreference = localStorage.getItem("theme");
     if (existingPreference) {
@@ -20,25 +20,23 @@ export default function App() {
       setDark("light");
       localStorage.setItem("theme", "light");
     }
-
-    const handleData = async () => {
-      const gtoken = localStorage.getItem("token");
-      if (gtoken) {
-        try {
-          const newUserData = await getUser(gtoken);
-          setUserData(newUserData);
-        } catch (err) {
-          console.error(err);
-          localStorage.removeItem("token");
-          setUserData(false);
-        }
-      } else {
+  }, []);
+  const handleData = async () => {
+    const gtoken = localStorage.getItem("token");
+    if (gtoken) {
+      try {
+        const newUserData = await getUser(gtoken);
+        setUserData(newUserData);
+      } catch (err) {
+        localStorage.removeItem("token");
         setUserData(false);
       }
-    };
+    } else {
+      setUserData(false);
+    }
+  };
 
-    handleData();
-  }, []);
+  if (userData === "wait") handleData();
 
   const { isDark, setDark } = store();
 

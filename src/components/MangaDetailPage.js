@@ -46,9 +46,9 @@ function Header({ data }) {
           <h4 className="mt-1 dark:text-white font-xl font-medium lg:text-3xl">
             {typeof data.author !== "string"
               ? data.author.map(
-                  (author, index) =>
-                    author + (data.author.length - 1 === index ? "" : ", ")
-                )
+                (author, index) =>
+                  author + (data.author.length - 1 === index ? "" : ", ")
+              )
               : false}
           </h4>
           <div className="mt-auto dark:text-white">
@@ -84,14 +84,14 @@ function Body({ data, mangaEp, mangaObj }) {
               <div className="w-full flex flex-wrap">
                 {data.genres
                   ? data.genres.map((genre, index) => (
-                      <Link
-                        key={index}
-                        to={`/list?genre=${handleGenreEP(genre)}`}
-                        className="text-white bg-sdarks py-[2px] px-[8px] rounded-md mx-[2px] font-bold select-none mb-2 hover:text-primary"
-                      >
-                        {genre}
-                      </Link>
-                    ))
+                    <Link
+                      key={index}
+                      to={`/list?genre=${handleGenreEP(genre)}`}
+                      className="text-white bg-sdarks py-[2px] px-[8px] rounded-md mx-[2px] font-bold select-none mb-2 hover:text-primary"
+                    >
+                      {genre}
+                    </Link>
+                  ))
                   : false}
               </div>
             </div>
@@ -111,9 +111,9 @@ function Body({ data, mangaEp, mangaObj }) {
               <span className="font-bold">Tác giả: </span>
               {typeof data.author !== "string"
                 ? data.author.map(
-                    (author, index) =>
-                      author + (data.author.length - 1 === index ? "" : ", ")
-                  )
+                  (author, index) =>
+                    author + (data.author.length - 1 === index ? "" : ", ")
+                )
                 : "Chưa được cập nhật"}
             </div>
           </div>
@@ -123,9 +123,9 @@ function Body({ data, mangaEp, mangaObj }) {
               <span className="font-bold">Tên khác: </span>
               {data.otherTitle
                 ? data.otherTitle.map(
-                    (text, index) =>
-                      text + (data.otherTitle.length - 1 === index ? "" : ", ")
-                  )
+                  (text, index) =>
+                    text + (data.otherTitle.length - 1 === index ? "" : ", ")
+                )
                 : "Hiện chưa có"}
             </div>
           </div>
@@ -336,9 +336,9 @@ export default function MangaDetailPage() {
     setUserData(res.data.user);
   };
 
-  if (userData && data && userData.historyList[0].mangaEP !== mangaEP) {
+  if (userData !== "wait" && userData && data && userData.historyList[0].mangaEP !== mangaEP) {
     handleHistory();
-  } else if (userData && userData.historyList[0]) {
+  } else if (userData !== "wait" && userData && userData.historyList[0]) {
     handleHistory();
   }
 
