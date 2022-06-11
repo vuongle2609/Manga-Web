@@ -313,6 +313,7 @@ export default function MangaDetailPage() {
   const [data, setData] = useState(false);
 
   const mangaEP = query.get("name");
+  console.log("🚀 ~ file: MangaDetailPage.js ~ line 316 ~ MangaDetailPage ~ mangaEP", mangaEP)
 
   const mangaObj = {
     title: data.title,
@@ -336,11 +337,11 @@ export default function MangaDetailPage() {
     setUserData(res.data.user);
   };
 
-  if (userData !== "wait" && userData && data && userData.historyList[0].mangaEP !== mangaEP) {
-    handleHistory();
-  } else if (userData !== "wait" && userData && userData.historyList[0]) {
-    handleHistory();
-  }
+  useEffect(() => {
+    if (userData !== "wait" && userData && userData?.historyList?.[0]?.mangaEP !== mangaEP) {
+      handleHistory();
+    }
+  }, [])
 
   return data ? (
     <div className="relative min-h-screen w-full">
